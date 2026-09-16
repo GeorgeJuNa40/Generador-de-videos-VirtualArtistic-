@@ -275,16 +275,15 @@ def cierre(item, conf, borrador, idx):
     out2 = os.path.join(BUILD, f"s{idx:03d}_cierre_logo.mp4")
     logo_img = os.path.join(RAIZ, item.get("logo_imagen", "")) if item.get("logo_imagen") else ""
     if logo_img and os.path.exists(logo_img):
-        fc = (
-            f"[1:v]scale={W}:{H}:force_original_aspect_ratio=decrease,"
+        vf = (
+            f"scale={W}:{H}:force_original_aspect_ratio=decrease,"
             f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:color=black,"
-            f"fade=t=in:st=0:d=0.7,fade=t=out:st={dur2-0.6:.2f}:d=0.6,format=yuv420p[v]"
+            f"fade=t=in:st=0:d=0.7,fade=t=out:st={dur2-0.6:.2f}:d=0.6,format=yuv420p"
         )
-        run(["ffmpeg", "-y", "-f", "lavfi",
-             "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={dur2:.3f}",
-             "-i", logo_img, "-filter_complex", fc,
-             "-map", "[v]", "-c:v", "libx264", "-crf", crf, "-preset", "veryfast",
-             "-pix_fmt", "yuv420p", "-t", f"{dur2:.3f}", out2])
+        run(["ffmpeg", "-y", "-loop", "1", "-framerate", str(FPS), "-i", logo_img,
+             "-vf", vf, "-t", f"{dur2:.3f}",
+             "-c:v", "libx264", "-crf", crf, "-preset", "veryfast",
+             "-pix_fmt", "yuv420p", out2])
     else:
         icono = os.path.join(RAIZ, item.get("logo_icono", "assets/logo/icono.png"))
         nombre = item.get("logo_nombre", "").replace("'", "")
