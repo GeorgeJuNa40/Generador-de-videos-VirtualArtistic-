@@ -26,7 +26,7 @@ def dur(p):
 
 
 def pausas():
-    out = subprocess.run(["ffmpeg","-i",VOZ,"-af","silencedetect=noise=-33dB:d=0.35","-f","null","-"],
+    out = subprocess.run(["ffmpeg","-i",VOZ,"-af","silencedetect=noise=-33dB:d=0.30","-f","null","-"],
                          capture_output=True,text=True).stderr
     st = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", out)]
     en = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", out)]
@@ -109,6 +109,23 @@ def main():
             j += 1; texto = texto + " " + lineas[j]; fin = bordes[j+1]
         fl.append(texto); fb.append(fin); i = j + 1
     lineas, bordes = fl, fb
+
+    # desplazar los tiempos de voz al tiempo ENSAMBLADO (sumando las pausas de las
+    # tarjetas de mes que ocurren antes de cada momento) usando build/schedule.json
+    sched_path = os.path.join(RAIZ, "build", "schedule.json")
+    if os.path.exists(sched_path):
+        import json
+        sched = json.load(open(sched_path))
+        cards = []  # (frontera_voz, duracion_pausa)
+        vacc = 0.0
+        for seg in sched["orden"]:
+            if seg["tipo"] == "voz":
+                vacc += seg["dur"]
+            else:
+                cards.append((vacc, seg["dur"]))
+        def shift(v):
+            return v + sum(d for vb, d in cards if v >= vb - 0.05)
+        bordes = [shift(b) for b in bordes]
 
     # escribir ASS (1080x1920)
     cab = """[Script Info]

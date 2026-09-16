@@ -2,7 +2,7 @@
   "meta": {
     "titulo": "12 meses / Un millon",
     "descripcion": "Cortometraje narrativo 2D. Segunda persona. Un empresario tiene 12 meses y un millon de pesos para hacer crecer su negocio y lo pierde todo. No es anuncio: es una historia.",
-    "duracion_objetivo_seg": 177,
+    "duracion_objetivo_seg": 166.7,
     "ancho": 1080,
     "alto": 1920,
     "fps": 30,
@@ -55,7 +55,9 @@
         "fuente": "base",
         "nota": "Regresa la musica base hasta el cierre."
       }
-    ]
+    ],
+    "silencio_en_cards": true,
+    "sfx_nivel_db": -6.0
   },
   "estructura_provisional_nota": "Meses clavados a las frases del texto (src/mapear_meses.py) y ajustados a pausas reales. 21 fuentes: 15 clips + 6 fotos animadas (Ken Burns). Asignacion por bloque afinable por contenido.",
   "timeline": [
@@ -68,10 +70,10 @@
     {
       "tipo": "bloque",
       "id": "apertura",
-      "hasta_seg": 27.6,
+      "hasta_seg": 27.0,
       "clips": [
         "foto_01",
-        "clip_01",
+        "clip_16",
         "foto_03"
       ],
       "nota": "Te despiertas; ves la cuenta, el millon intacto; obsesion."
@@ -80,12 +82,14 @@
       "tipo": "tarjeta",
       "id": "mes_01",
       "texto": "Mes 1",
-      "duracion_seg": 2.0
+      "duracion_seg": 2.5,
+      "sfx": "assets/sfx/mes_impacto.wav",
+      "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_01",
-      "hasta_seg": 56.4,
+      "hasta_seg": 52.2,
       "clips": [
         "clip_02",
         "foto_04",
@@ -98,12 +102,14 @@
       "tipo": "tarjeta",
       "id": "mes_03",
       "texto": "Mes 3",
-      "duracion_seg": 2.0
+      "duracion_seg": 2.5,
+      "sfx": "assets/sfx/mes_impacto.wav",
+      "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_03",
-      "hasta_seg": 84.3,
+      "hasta_seg": 78.8,
       "clips": [
         "clip_05",
         "clip_06",
@@ -115,12 +121,14 @@
       "tipo": "tarjeta",
       "id": "mes_05",
       "texto": "Mes 5",
-      "duracion_seg": 2.0
+      "duracion_seg": 2.5,
+      "sfx": "assets/sfx/mes_impacto.wav",
+      "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_05",
-      "hasta_seg": 114.7,
+      "hasta_seg": 108.1,
       "clips": [
         "clip_07",
         "clip_08",
@@ -133,12 +141,14 @@
       "tipo": "tarjeta",
       "id": "mes_08",
       "texto": "Mes 8",
-      "duracion_seg": 2.0
+      "duracion_seg": 2.5,
+      "sfx": "assets/sfx/mes_impacto.wav",
+      "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_08",
-      "hasta_seg": 144.5,
+      "hasta_seg": 136.4,
       "clips": [
         "clip_10",
         "clip_11",
@@ -151,12 +161,14 @@
       "id": "mes_11",
       "texto": "Mes 11",
       "duracion_seg": 3.0,
-      "nota": "2 segundos. Clima emocional + silencio de musica."
+      "nota": "2 segundos. Clima emocional + silencio de musica.",
+      "sfx": "assets/sfx/mes_impacto.wav",
+      "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_11",
-      "hasta_seg": 164.1,
+      "hasta_seg": 154.5,
       "clips": [
         "clip_13",
         "clip_14"
@@ -167,12 +179,14 @@
       "tipo": "tarjeta",
       "id": "mes_12",
       "texto": "Mes 12",
-      "duracion_seg": 2.0
+      "duracion_seg": 2.5,
+      "sfx": "assets/sfx/mes_impacto.wav",
+      "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_12",
-      "hasta_seg": 177.32,
+      "hasta_seg": 166.67,
       "clips": [
         "clip_15",
         "foto_06"
@@ -184,19 +198,24 @@
       "id": "fade_final",
       "en_seg": 176.1,
       "duracion_seg": 1.2,
-      "nota": "Fundido a negro justo al terminar la narracion (177s)."
+      "nota": "Fundido a negro justo al terminar la narracion (177s).",
+      "auto_final": true
     },
     {
       "tipo": "cierre",
       "id": "cierre",
-      "texto_final_1": "El tiempo no se recupera.",
-      "texto_final_2": "Tu crecimiento, sí.",
       "logo_icono": "assets/logo/icono.png",
       "logo_nombre": "VirtualArtistic",
       "logo_tagline": "Digital Transformation & Growth",
       "negro_texto_seg": 3.5,
-      "negro_logo_seg": 3.0,
-      "negro_final_seg": 1.0
+      "negro_logo_seg": 2.6,
+      "negro_final_seg": 0.7,
+      "beat1_1": "Hay otra versión de la historia",
+      "beat1_2": "donde el mes 12 no termina así.",
+      "beat2_1": "El tiempo no se recupera.",
+      "beat2_2": "Tu crecimiento, sí.",
+      "negro_beat1_seg": 3.8,
+      "negro_beat2_seg": 3.2
     }
   ]
 }

@@ -48,6 +48,12 @@ def cfg():
         return json.load(f)
 
 
+def dur_archivo(p):
+    return float(subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+        "format=duration", "-of", "default=nokey=1:noprint_wrappers=1", p],
+        capture_output=True, text=True).stdout.strip())
+
+
 def clip_path(n):
     if es_foto(n):
         return os.path.join(FOTOS, n + ".jpg")
@@ -157,27 +163,35 @@ def construir(conf, borrador, reuso=False):
     rr = 0  # indice rotatorio para reuso
 
     segmentos, cierre_segs, faltantes = [], [], []
-    cursor = 0.0   # tiempo absoluto en la linea de la voz
+    vc = 0.0   # cursor en la VOZ (tiempo de la narracion)
+    t = 0.0    # cursor en la linea ENSAMBLADA (con silencios de tarjetas)
     idx = 0
+    orden = []      # secuencia de audio en tiempo ensamblado
+    climax = None
 
     for item in conf["timeline"]:
-        t = item["tipo"]
+        tt = item["tipo"]
 
-        if t == "negro":
-            dur = item["hasta_seg"] - cursor
+        if tt == "negro":
+            dur = item["hasta_seg"] - vc
             out = os.path.join(BUILD, f"s{idx:03d}_negro.mp4")
             negro(out, W, H, FPS, dur, borrador)
-            segmentos.append(out); cursor = item["hasta_seg"]; idx += 1
+            segmentos.append(out)
+            orden.append({"tipo": "voz", "dur": round(dur, 3), "voz_ini": round(vc, 3)})
+            vc = item["hasta_seg"]; t += dur; idx += 1
 
-        elif t == "tarjeta":
+        elif tt == "tarjeta":
             dur = item["duracion_seg"]
             out = os.path.join(BUILD, f"s{idx:03d}_{item['id']}.mp4")
             tarjeta(item["texto"], out, W, H, FPS, dur, fuente,
                     est["tarjeta_color_fondo"], est["tarjeta_color_texto"], borrador)
-            segmentos.append(out); cursor += dur; idx += 1
+            segmentos.append(out)
+            orden.append({"tipo": "card", "dur": round(dur, 3),
+                          "sfx": item.get("sfx"), "silencio": item.get("silencio_total", True)})
+            t += dur; idx += 1
 
-        elif t == "bloque":
-            ventana = item["hasta_seg"] - cursor
+        elif tt == "bloque":
+            ventana = item["hasta_seg"] - vc   # ventana = trozo de VOZ que cubre el bloque
             clips = item["clips"]
             n = len(clips)
             share = ventana / n
@@ -195,16 +209,42 @@ def construir(conf, borrador, reuso=False):
                     faltantes.append(c)
                     negro(out, W, H, FPS, share, borrador)
                 segmentos.append(out); idx += 1
-            cursor = item["hasta_seg"]
+            orden.append({"tipo": "voz", "dur": round(ventana, 3), "voz_ini": round(vc, 3)})
+            if item["id"] == "b_mes_11":
+                climax = {"t_ini": round(t, 3), "t_fin": round(t + ventana, 3)}
+            vc = item["hasta_seg"]; t += ventana
 
-        elif t == "fundido_negro":
+        elif tt == "fundido_negro":
             continue  # se aplica en post
 
-        elif t == "cierre":
+        elif tt == "cierre":
             cierre_segs = cierre(item, conf, borrador, idx)
             idx += len(cierre_segs)
 
+    schedule = {"orden": orden, "total_cuerpo": round(t, 3),
+                "voz_total": round(vc, 3), "climax": climax}
+    with open(os.path.join(BUILD, "schedule.json"), "w") as f:
+        json.dump(schedule, f, indent=2)
     return segmentos, cierre_segs, faltantes
+
+
+def _beat_texto(t1, t2, salida, W, H, FPS, dur, fuente, borrador):
+    """Un 'beat' de cierre: dos lineas de texto blanco delgado con fade in/out."""
+    crf, preset = crf_preset(borrador)
+    tam = int(H * 0.032)
+    a = f"'if(lt(t,0.6),t/0.6,if(gt(t,{dur-0.6:.2f}),({dur}-t)/0.6,1))'"
+    t1 = t1.replace(":", "\\:").replace("'", "")
+    t2 = t2.replace(":", "\\:").replace("'", "")
+    draw = (
+        f"drawtext=fontfile='{fuente}':text='{t1}':fontcolor=white:fontsize={tam}:"
+        f"x=(w-text_w)/2:y=h/2-{tam}:alpha={a},"
+        f"drawtext=fontfile='{fuente}':text='{t2}':fontcolor=white:fontsize={tam}:"
+        f"x=(w-text_w)/2:y=h/2+{int(tam*0.4)}:alpha={a}"
+    )
+    run(["ffmpeg", "-y", "-f", "lavfi",
+         "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={dur:.3f}",
+         "-vf", f"{draw},format=yuv420p", "-c:v", "libx264", "-crf", crf,
+         "-preset", "veryfast", "-pix_fmt", "yuv420p", "-t", f"{dur:.3f}", salida])
 
 
 def cierre(item, conf, borrador, idx):
@@ -214,23 +254,18 @@ def cierre(item, conf, borrador, idx):
     crf, preset = crf_preset(borrador)
     outs = []
 
-    # 1) Texto final: dos lineas, blanco delgado, con fade suave de entrada/salida
-    dur1 = item["negro_texto_seg"]
-    t1 = item.get("texto_final_1", "").replace(":", "\\:").replace("'", "")
-    t2 = item.get("texto_final_2", "").replace(":", "\\:").replace("'", "")
-    tam = int(H * 0.032)
-    out1 = os.path.join(BUILD, f"s{idx:03d}_cierre_texto.mp4")
-    draw = (
-        f"drawtext=fontfile='{fuente}':text='{t1}':fontcolor=white:fontsize={tam}:"
-        f"x=(w-text_w)/2:y=h/2-{tam}:alpha='if(lt(t,0.6),t/0.6,if(gt(t,{dur1-0.6:.2f}),({dur1}-t)/0.6,1))',"
-        f"drawtext=fontfile='{fuente}':text='{t2}':fontcolor=white:fontsize={tam}:"
-        f"x=(w-text_w)/2:y=h/2+{int(tam*0.4)}:alpha='if(lt(t,0.6),t/0.6,if(gt(t,{dur1-0.6:.2f}),({dur1}-t)/0.6,1))'"
-    )
-    run(["ffmpeg", "-y", "-f", "lavfi",
-         "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={dur1:.3f}",
-         "-vf", f"{draw},format=yuv420p", "-c:v", "libx264", "-crf", crf,
-         "-preset", "veryfast", "-pix_fmt", "yuv420p", "-t", f"{dur1:.3f}", out1])
-    outs.append(out1)
+    # 1a) Primer beat: "Hay otra version de la historia / donde el mes 12 no termina asi."
+    b1 = os.path.join(BUILD, f"s{idx:03d}_cierre_beat1.mp4")
+    _beat_texto(item.get("beat1_1", ""), item.get("beat1_2", ""), b1,
+                W, H, FPS, item["negro_beat1_seg"], fuente, borrador)
+    outs.append(b1)
+
+    # 1b) Segundo beat: "El tiempo no se recupera. / Tu crecimiento, si."
+    b2 = os.path.join(BUILD, f"s{idx+1:03d}_cierre_beat2.mp4")
+    _beat_texto(item.get("beat2_1", ""), item.get("beat2_2", ""), b2,
+                W, H, FPS, item["negro_beat2_seg"], fuente, borrador)
+    outs.append(b2)
+    idx += 1  # ya consumimos un indice extra
 
     # 2) Logo: icono a color sobre negro + nombre (blanco) + tagline (gris), con fade
     dur2 = item["negro_logo_seg"]
@@ -268,8 +303,13 @@ def aplica_fundido(entrada, salida, conf):
     fade = next((i for i in conf["timeline"] if i["tipo"] == "fundido_negro"), None)
     if not fade:
         os.replace(entrada, salida); return
+    d = fade["duracion_seg"]
+    if fade.get("auto_final"):
+        st = max(0.0, dur_archivo(entrada) - d)   # fundido en el ultimo tramo del cuerpo
+    else:
+        st = fade["en_seg"]
     run(["ffmpeg", "-y", "-i", entrada,
-         "-vf", f"fade=t=out:st={fade['en_seg']}:d={fade['duracion_seg']},format=yuv420p",
+         "-vf", f"fade=t=out:st={st:.3f}:d={d},format=yuv420p",
          "-c:v", "libx264", "-crf", "18", "-preset", "medium",
          "-pix_fmt", "yuv420p", salida])
 

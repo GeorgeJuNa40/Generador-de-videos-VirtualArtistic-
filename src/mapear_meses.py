@@ -14,7 +14,7 @@ def dur(p):
 TOTAL = dur(voz)
 
 # 1) pausas reales (punto medio de cada silencio)
-out = subprocess.run(["ffmpeg","-i",voz,"-af","silencedetect=noise=-33dB:d=0.35","-f","null","-"],
+out = subprocess.run(["ffmpeg","-i",voz,"-af","silencedetect=noise=-33dB:d=0.30","-f","null","-"],
                      capture_output=True,text=True).stderr
 st = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", out)]
 en = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", out)]
@@ -48,5 +48,5 @@ for mes, frase in anclas.items():
         print(f"{mes:8}  NO ENCONTRADA: {frase}"); continue
     frac = idx / N
     t_prop = frac * TOTAL
-    t_snap = min(pausas, key=lambda p: abs(p - t_prop))
+    t_snap = min(pausas, key=lambda p: abs(p - t_prop)) if pausas else t_prop
     print(f"{mes:8} {frac*100:5.1f}% {t_prop:7.1f}s {t_snap:7.1f}s   \"{frase}...\"")
