@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "titulo": "12 meses / Un millon",
+    "descripcion": "Cortometraje narrativo 2D. Segunda persona. Un empresario tiene 12 meses y un millon de pesos para hacer crecer su negocio y lo pierde todo. No es anuncio: es una historia.",
+    "duracion_objetivo_seg": 142,
+    "ancho": 1080,
+    "alto": 1920,
+    "fps": 30
+  },
+  "estilo": {
+    "transicion_por_defecto": "corte_seco",
+    "tarjeta_color_fondo": "#000000",
+    "tarjeta_color_texto": "#FFFFFF",
+    "tarjeta_fuente": "assets/fuentes/tarjeta.ttf",
+    "recorte_final_descartar_seg": 1.0,
+    "clip_duracion_min_seg": 3.0,
+    "clip_duracion_max_seg": 4.0
+  },
+  "audio": {
+    "voz_archivo": "assets/voz/voz_off.wav",
+    "voz_nivel_db": -3.0,
+    "voz_piso_min_db": -6.0,
+    "musica_archivo": "assets/musica/musica.wav",
+    "musica_nivel_db": -20.0,
+    "musica_rango_db": [-22.0, -18.0],
+    "musica_silencio": [
+      { "desde_seg": 100.0, "hasta_seg": 113.0, "nota": "Silencio total de musica en bloque Mes 11 (1:40-1:53). Punto mas importante." }
+    ]
+  },
+  "timeline": [
+    { "tipo": "negro", "id": "intro_negro", "duracion_seg": 11.0, "nota": "Pantalla negra + solo voz en off. INTENCIONAL." },
+
+    { "tipo": "bloque", "id": "apertura", "clips": ["clip_01", "clip_02", "clip_03"] },
+
+    { "tipo": "tarjeta", "id": "mes_01", "texto": "Mes 1", "duracion_seg": 1.0 },
+    { "tipo": "bloque", "id": "b_mes_01", "clips": ["clip_04", "clip_05", "clip_06"] },
+
+    { "tipo": "tarjeta", "id": "mes_03", "texto": "Mes 3", "duracion_seg": 1.0 },
+    { "tipo": "bloque", "id": "b_mes_03", "clips": ["clip_07", "clip_08", "clip_09"] },
+
+    { "tipo": "tarjeta", "id": "mes_05", "texto": "Mes 5", "duracion_seg": 1.0 },
+    { "tipo": "bloque", "id": "b_mes_05", "clips": ["clip_10", "PENDIENTE_11", "PENDIENTE_12"] },
+
+    { "tipo": "tarjeta", "id": "mes_08", "texto": "Mes 8", "duracion_seg": 1.0 },
+    { "tipo": "bloque", "id": "b_mes_08", "clips": ["PENDIENTE_13", "PENDIENTE_14", "PENDIENTE_15"] },
+
+    { "tipo": "tarjeta", "id": "mes_11", "texto": "Mes 11", "duracion_seg": 2.0, "nota": "Dura 2 segundos, no 1." },
+    { "tipo": "bloque", "id": "b_mes_11", "clips": ["PENDIENTE_16", "PENDIENTE_17", "PENDIENTE_18"], "nota": "Bloque con silencio total de musica (1:40-1:53)." },
+
+    { "tipo": "tarjeta", "id": "mes_12", "texto": "Mes 12", "duracion_seg": 1.0 },
+    { "tipo": "bloque", "id": "b_mes_12", "clips": ["PENDIENTE_19", "PENDIENTE_20", "PENDIENTE_21"] },
+
+    { "tipo": "fundido_negro", "id": "fade_final", "en_seg": 133.0, "duracion_seg": 1.0, "nota": "Unica excepcion: fundido a negro en 2:13." },
+    { "tipo": "cierre", "id": "cierre", "texto_final": "TEXTO FINAL PENDIENTE", "logo": "assets/logo/logo.png", "negro_texto_seg": 4.0, "negro_logo_seg": 3.0, "negro_final_seg": 1.5 }
+  ]
+}
