@@ -209,35 +209,55 @@ def construir(conf, borrador, reuso=False):
 
 def cierre(item, conf, borrador, idx):
     W, H, FPS = conf["meta"]["ancho"], conf["meta"]["alto"], conf["meta"]["fps"]
-    fuente = os.path.join(RAIZ, "assets", "fuentes", "cierre.ttf")
+    fuente = os.path.join(RAIZ, "assets", "fuentes", "cierre.ttf")   # texto final (delgado)
+    marca = os.path.join(RAIZ, "assets", "fuentes", "tarjeta.ttf")    # nombre marca (bold)
     crf, preset = crf_preset(borrador)
     outs = []
 
+    # 1) Texto final: dos lineas, blanco delgado, con fade suave de entrada/salida
+    dur1 = item["negro_texto_seg"]
+    t1 = item.get("texto_final_1", "").replace(":", "\\:").replace("'", "")
+    t2 = item.get("texto_final_2", "").replace(":", "\\:").replace("'", "")
+    tam = int(H * 0.032)
     out1 = os.path.join(BUILD, f"s{idx:03d}_cierre_texto.mp4")
-    tam = int(H * 0.030)
-    txt = item.get("texto_final", "").replace(":", "\\:").replace("'", "")
-    draw = (f"drawtext=fontfile='{fuente}':text='{txt}':fontcolor=white:"
-            f"fontsize={tam}:x=(w-text_w)/2:y=(h-text_h)/2")
+    draw = (
+        f"drawtext=fontfile='{fuente}':text='{t1}':fontcolor=white:fontsize={tam}:"
+        f"x=(w-text_w)/2:y=h/2-{tam}:alpha='if(lt(t,0.6),t/0.6,if(gt(t,{dur1-0.6:.2f}),({dur1}-t)/0.6,1))',"
+        f"drawtext=fontfile='{fuente}':text='{t2}':fontcolor=white:fontsize={tam}:"
+        f"x=(w-text_w)/2:y=h/2+{int(tam*0.4)}:alpha='if(lt(t,0.6),t/0.6,if(gt(t,{dur1-0.6:.2f}),({dur1}-t)/0.6,1))'"
+    )
     run(["ffmpeg", "-y", "-f", "lavfi",
-         "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={item['negro_texto_seg']:.3f}",
+         "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={dur1:.3f}",
          "-vf", f"{draw},format=yuv420p", "-c:v", "libx264", "-crf", crf,
-         "-preset", "veryfast", "-pix_fmt", "yuv420p",
-         "-t", f"{item['negro_texto_seg']:.3f}", out1])
+         "-preset", "veryfast", "-pix_fmt", "yuv420p", "-t", f"{dur1:.3f}", out1])
     outs.append(out1)
 
-    logo = os.path.join(RAIZ, item.get("logo", ""))
+    # 2) Logo: icono a color sobre negro + nombre (blanco) + tagline (gris), con fade
+    dur2 = item["negro_logo_seg"]
+    icono = os.path.join(RAIZ, item.get("logo_icono", "assets/logo/icono.png"))
+    nombre = item.get("logo_nombre", "").replace("'", "")
+    tagline = item.get("logo_tagline", "").replace("&", "\\&").replace("'", "")
     out2 = os.path.join(BUILD, f"s{idx+1:03d}_cierre_logo.mp4")
-    if os.path.exists(logo):
+    if os.path.exists(icono):
+        fexpr = f"'if(lt(t,0.7),t/0.7,if(gt(t,{dur2-0.6:.2f}),({dur2}-t)/0.6,1))'"
+        fc = (
+            f"[1:v]scale=440:-1[ic];"
+            f"[0:v][ic]overlay=(W-w)/2:(H-h)/2-140[b];"
+            f"[b]drawtext=fontfile='{marca}':text='{nombre}':fontcolor=white:fontsize=76:"
+            f"x=(w-text_w)/2:y=h/2+120[b2];"
+            f"[b2]drawtext=fontfile='{fuente}':text='{tagline}':fontcolor=0xB0B0B0:fontsize=34:"
+            f"x=(w-text_w)/2:y=h/2+210,fade=t=in:st=0:d=0.7,fade=t=out:st={dur2-0.6:.2f}:d=0.6,format=yuv420p"
+        )
         run(["ffmpeg", "-y", "-f", "lavfi",
-             "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={item['negro_logo_seg']:.3f}",
-             "-i", logo, "-filter_complex",
-             "[1:v]scale=iw*0.5:-1[lg];[0:v][lg]overlay=(W-w)/2:(H-h)/2,format=yuv420p",
+             "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={dur2:.3f}",
+             "-i", icono, "-filter_complex", fc,
              "-c:v", "libx264", "-crf", crf, "-preset", "veryfast",
-             "-pix_fmt", "yuv420p", "-t", f"{item['negro_logo_seg']:.3f}", out2])
+             "-pix_fmt", "yuv420p", "-t", f"{dur2:.3f}", out2])
     else:
-        negro(out2, W, H, FPS, item["negro_logo_seg"], borrador)
+        negro(out2, W, H, FPS, dur2, borrador)
     outs.append(out2)
 
+    # 3) Negro final
     out3 = os.path.join(BUILD, f"s{idx+2:03d}_cierre_negro.mp4")
     negro(out3, W, H, FPS, item["negro_final_seg"], borrador)
     outs.append(out3)
