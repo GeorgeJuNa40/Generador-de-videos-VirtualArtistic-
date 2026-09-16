@@ -67,16 +67,46 @@ def construir_voz(conf, sched, bd):
 
 
 def construir_musica(conf, sched, bd, total):
-    """Musica base continua que se calla en tarjetas y en el bloque climax."""
+    """Musica combinada continua que se calla en tarjetas y en el bloque climax,
+    con una capa de TENSION que construye hacia el clima."""
     a = conf["audio"]
-    base = os.path.join(RAIZ, a["musica_base"])
     nivel = a["musica_nivel_db"]
-    # base continua a lo largo de todo el cuerpo
-    base_full = os.path.join(bd, "base_full.wav")
-    run(["ffmpeg", "-y", "-stream_loop", "-1", "-i", base, "-t", f"{total:.3f}",
-         "-af", f"volume={nivel}dB", "-ar", "48000", "-ac", "2", base_full])
-
     clx = sched.get("climax") or {}
+
+    # 1) cama base: combinar varias pistas (mas cuerpo/dramatismo) o una sola
+    combinar = a.get("musica_combinar") or [a["musica_base"]]
+    base_full = os.path.join(bd, "base_full.wav")
+    cmd = ["ffmpeg", "-y"]
+    for tr in combinar:
+        cmd += ["-stream_loop", "-1", "-i", os.path.join(RAIZ, tr)]
+    if len(combinar) == 1:
+        fc = f"[0:a]volume={nivel}dB[out]"
+    else:
+        pre = "".join(f"[{i}:a]volume={-3.0*i:.1f}dB[a{i}];" for i in range(len(combinar)))
+        mix = "".join(f"[a{i}]" for i in range(len(combinar)))
+        fc = pre + f"{mix}amix=inputs={len(combinar)}:normalize=0[mx];[mx]volume={nivel}dB[out]"
+    cmd += ["-filter_complex", fc, "-map", "[out]", "-t", f"{total:.3f}",
+            "-ar", "48000", "-ac", "2", base_full]
+    run(cmd)
+
+    # 2) capa de tension que entra ~18s antes del climax y crece
+    tension = a.get("musica_tension")
+    if tension and clx:
+        ov = min(18.0, clx["t_ini"])
+        ini = max(0.0, clx["t_ini"] - ov)
+        base_dram = os.path.join(bd, "base_dram.wav")
+        ten = os.path.join(RAIZ, tension)
+        fc2 = (
+            f"[1:a]atrim=0:{ov:.2f},adelay={int(ini*1000)}|{int(ini*1000)},"
+            f"volume={nivel+4:.1f}dB,afade=t=in:st={ini:.2f}:d=3,"
+            f"afade=t=out:st={clx['t_ini']-0.4:.2f}:d=0.4[ten];"
+            f"[0:a][ten]amix=inputs=2:normalize=0[out]"
+        )
+        run(["ffmpeg", "-y", "-i", base_full, "-i", ten,
+             "-filter_complex", fc2, "-map", "[out]", "-t", f"{total:.3f}",
+             "-ar", "48000", "-ac", "2", base_dram])
+        base_full = base_dram
+
     orden = sched["orden"]
     fpre = conf["audio"].get("musica_fade_pre_card_seg", 1.2)  # bajar musica antes del mes
     piezas, t = [], 0.0

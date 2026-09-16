@@ -254,20 +254,41 @@ def cierre(item, conf, borrador, idx):
     crf, preset = crf_preset(borrador)
     outs = []
 
-    # 1) Frase final unica: "Hay otra version de la historia / donde el mes 12 no termina asi."
+    # 1) Primera frase: "Hay otra version de la historia / donde el mes 12 no termina asi."
     b1 = os.path.join(BUILD, f"s{idx:03d}_cierre_beat1.mp4")
     _beat_texto(item.get("beat1_1", ""), item.get("beat1_2", ""), b1,
                 W, H, FPS, item["negro_beat1_seg"], fuente, borrador)
     outs.append(b1)
+    idx += 1
 
-    # 2) Logo: icono a color sobre negro + nombre (blanco) + tagline (gris), con fade
+    # 1b) Segunda frase (opcional): "El tiempo no se recupera. / Tu crecimiento, si."
+    if item.get("beat2_1"):
+        b2 = os.path.join(BUILD, f"s{idx:03d}_cierre_beat2.mp4")
+        _beat_texto(item.get("beat2_1", ""), item.get("beat2_2", ""), b2,
+                    W, H, FPS, item.get("negro_beat2_seg", 3.5), fuente, borrador)
+        outs.append(b2)
+        idx += 1
+
+    # 2) Logo. Si hay logo_imagen, se usa la imagen ORIGINAL a pantalla completa;
+    #    si no, se arma la version dark (icono + nombre).
     dur2 = item["negro_logo_seg"]
-    icono = os.path.join(RAIZ, item.get("logo_icono", "assets/logo/icono.png"))
-    nombre = item.get("logo_nombre", "").replace("'", "")
-    tagline = item.get("logo_tagline", "").replace("&", "\\&").replace("'", "")
-    out2 = os.path.join(BUILD, f"s{idx+1:03d}_cierre_logo.mp4")
-    if os.path.exists(icono):
-        fexpr = f"'if(lt(t,0.7),t/0.7,if(gt(t,{dur2-0.6:.2f}),({dur2}-t)/0.6,1))'"
+    out2 = os.path.join(BUILD, f"s{idx:03d}_cierre_logo.mp4")
+    logo_img = os.path.join(RAIZ, item.get("logo_imagen", "")) if item.get("logo_imagen") else ""
+    if logo_img and os.path.exists(logo_img):
+        fc = (
+            f"[1:v]scale={W}:{H}:force_original_aspect_ratio=decrease,"
+            f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:color=black,"
+            f"fade=t=in:st=0:d=0.7,fade=t=out:st={dur2-0.6:.2f}:d=0.6,format=yuv420p[v]"
+        )
+        run(["ffmpeg", "-y", "-f", "lavfi",
+             "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={dur2:.3f}",
+             "-i", logo_img, "-filter_complex", fc,
+             "-map", "[v]", "-c:v", "libx264", "-crf", crf, "-preset", "veryfast",
+             "-pix_fmt", "yuv420p", "-t", f"{dur2:.3f}", out2])
+    else:
+        icono = os.path.join(RAIZ, item.get("logo_icono", "assets/logo/icono.png"))
+        nombre = item.get("logo_nombre", "").replace("'", "")
+        tagline = item.get("logo_tagline", "").replace("&", "\\&").replace("'", "")
         fc = (
             f"[1:v]scale=440:-1[ic];"
             f"[0:v][ic]overlay=(W-w)/2:(H-h)/2-140[b];"
@@ -281,12 +302,11 @@ def cierre(item, conf, borrador, idx):
              "-i", icono, "-filter_complex", fc,
              "-c:v", "libx264", "-crf", crf, "-preset", "veryfast",
              "-pix_fmt", "yuv420p", "-t", f"{dur2:.3f}", out2])
-    else:
-        negro(out2, W, H, FPS, dur2, borrador)
     outs.append(out2)
+    idx += 1
 
     # 3) Negro final
-    out3 = os.path.join(BUILD, f"s{idx+2:03d}_cierre_negro.mp4")
+    out3 = os.path.join(BUILD, f"s{idx:03d}_cierre_negro.mp4")
     negro(out3, W, H, FPS, item["negro_final_seg"], borrador)
     outs.append(out3)
     return outs
