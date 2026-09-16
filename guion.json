@@ -5,7 +5,8 @@
     "duracion_objetivo_seg": 177,
     "ancho": 1080,
     "alto": 1920,
-    "fps": 30
+    "fps": 30,
+    "duracion_maxima_seg": 179
   },
   "estilo": {
     "transicion_por_defecto": "corte_seco",

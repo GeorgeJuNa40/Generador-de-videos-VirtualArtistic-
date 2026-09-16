@@ -324,6 +324,26 @@ def main():
                  "-c:v", "libx264", "-crf", crf, "-preset", preset,
                  "-pix_fmt", "yuv420p", "-c:a", "copy", destino])
 
+    # Ajuste opcional a una duracion maxima (p.ej. limite de 3 min de Instagram).
+    # Comprime video y audio por igual, conservando la sincronia.
+    maxd = conf["meta"].get("duracion_maxima_seg")
+    if maxd and not args.solo_video:
+        actual = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+            "format=duration", "-of", "default=nokey=1:noprint_wrappers=1", destino],
+            capture_output=True, text=True).stdout.strip())
+        if actual > maxd:
+            objetivo = maxd - 0.5
+            factor = actual / objetivo
+            print(f"== Ajustando duracion {actual:.1f}s -> {objetivo:.1f}s (x{factor:.4f}) ==")
+            tmp = os.path.join(BUILD, "ajustado.mp4")
+            run(["ffmpeg", "-y", "-i", destino,
+                 "-filter_complex", f"[0:v]setpts=PTS/{factor:.5f}[v];[0:a]atempo={factor:.5f}[a]",
+                 "-map", "[v]", "-map", "[a]",
+                 "-c:v", "libx264", "-crf", "18" if not args.borrador else "26",
+                 "-preset", "medium", "-pix_fmt", "yuv420p",
+                 "-c:a", "aac", "-b:a", "256k", tmp])
+            os.replace(tmp, destino)
+
     dur = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                           "-of", "default=nokey=1:noprint_wrappers=1", destino],
                          capture_output=True, text=True).stdout.strip()
