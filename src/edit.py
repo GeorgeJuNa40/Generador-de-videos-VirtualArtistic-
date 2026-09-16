@@ -156,7 +156,7 @@ def construir(conf, borrador, reuso=False):
     pool = _pool_reuso(conf) if reuso else []
     rr = 0  # indice rotatorio para reuso
 
-    segmentos, faltantes = [], []
+    segmentos, cierre_segs, faltantes = [], [], []
     cursor = 0.0   # tiempo absoluto en la linea de la voz
     idx = 0
 
@@ -201,10 +201,10 @@ def construir(conf, borrador, reuso=False):
             continue  # se aplica en post
 
         elif t == "cierre":
-            outs = cierre(item, conf, borrador, idx)
-            segmentos.extend(outs); idx += len(outs)
+            cierre_segs = cierre(item, conf, borrador, idx)
+            idx += len(cierre_segs)
 
-    return segmentos, faltantes
+    return segmentos, cierre_segs, faltantes
 
 
 def cierre(item, conf, borrador, idx):
@@ -286,15 +286,19 @@ def main():
     os.makedirs(BUILD, exist_ok=True); os.makedirs(OUTPUT, exist_ok=True)
 
     print("== Construyendo segmentos (alineados a la voz) ==")
-    segmentos, faltantes = construir(conf, args.borrador, reuso=args.reuso)
+    segmentos, cierre_segs, faltantes = construir(conf, args.borrador, reuso=args.reuso)
 
-    print("== Uniendo con cortes secos ==")
-    unido = os.path.join(BUILD, "unido.mp4")
-    concat(segmentos, unido)
+    print("== Uniendo cuerpo con cortes secos ==")
+    cuerpo = os.path.join(BUILD, "cuerpo.mp4")
+    concat(segmentos, cuerpo)
 
-    print("== Fundido a negro ==")
+    print("== Fundido a negro (solo al final del cuerpo) ==")
+    cuerpo_fade = os.path.join(BUILD, "cuerpo_fade.mp4")
+    aplica_fundido(cuerpo, cuerpo_fade, conf)
+
+    print("== Pegando el cierre despues del fundido ==")
     con_fade = os.path.join(BUILD, "con_fade.mp4")
-    aplica_fundido(unido, con_fade, conf)
+    concat([cuerpo_fade] + cierre_segs, con_fade)
 
     if args.solo_video:
         destino = os.path.join(OUTPUT, "cortometraje_sin_audio.mp4")

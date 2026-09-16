@@ -93,12 +93,14 @@ def mezclar(conf, video_sin_audio, salida, build_dir):
 
     cama = construir_cama(conf, build_dir, total)
 
-    # loudnorm deja la voz fuerte y consistente; volume ajusta el objetivo.
+    # La VOZ y la MUSICA se rellenan (apad) hasta la duracion TOTAL del video,
+    # para que el cierre (texto + logo, despues de la narracion) no se corte.
     voz_ganancia = a.get("voz_nivel_db", -3.0)
     fc = (
-        f"[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,volume={voz_ganancia}dB[voz];"
-        f"[2:a]apad[mus];"
-        f"[voz][mus]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[a]"
+        f"[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,volume={voz_ganancia}dB,"
+        f"apad,atrim=0:{total:.3f}[voz];"
+        f"[2:a]apad,atrim=0:{total:.3f}[mus];"
+        f"[voz][mus]amix=inputs=2:duration=longest:dropout_transition=0:normalize=0[a]"
     )
     run([
         "ffmpeg", "-y",
@@ -107,7 +109,8 @@ def mezclar(conf, video_sin_audio, salida, build_dir):
         "-i", cama,
         "-filter_complex", fc,
         "-map", "0:v", "-map", "[a]",
-        "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-shortest",
+        "-c:v", "copy", "-c:a", "aac", "-b:a", "256k",
+        "-t", f"{total:.3f}",
         salida,
     ])
     return salida
