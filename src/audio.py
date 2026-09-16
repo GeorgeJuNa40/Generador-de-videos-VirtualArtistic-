@@ -77,8 +77,10 @@ def construir_musica(conf, sched, bd, total):
          "-af", f"volume={nivel}dB", "-ar", "48000", "-ac", "2", base_full])
 
     clx = sched.get("climax") or {}
+    orden = sched["orden"]
+    fpre = conf["audio"].get("musica_fade_pre_card_seg", 1.2)  # bajar musica antes del mes
     piezas, t = [], 0.0
-    for i, seg in enumerate(sched["orden"]):
+    for i, seg in enumerate(orden):
         d = seg["dur"]
         muteado = seg["tipo"] == "card"
         if seg["tipo"] == "voz" and clx and t >= clx["t_ini"] - 0.01 and t < clx["t_fin"] - 0.01:
@@ -87,8 +89,18 @@ def construir_musica(conf, sched, bd, total):
             piezas.append(silencio(bd, 1000 + i, d))
         else:
             out = os.path.join(bd, f"a_mus_{i:03d}.wav")
+            afs = []
+            # si el SIGUIENTE es una tarjeta (o es el ultimo tramo): bajar la musica al final
+            ultimo = (i + 1 >= len(orden))
+            if ultimo or orden[i + 1]["tipo"] == "card":
+                fd = min(fpre, d)
+                afs.append(f"afade=t=out:st={max(0, d-fd):.3f}:d={fd:.3f}")
+            # si el ANTERIOR fue una tarjeta: entrar la musica con un fade suave
+            if i > 0 and orden[i - 1]["tipo"] == "card":
+                afs.append("afade=t=in:st=0:d=0.8")
+            af = (",".join(afs)) if afs else "anull"
             run(["ffmpeg", "-y", "-ss", f"{t:.3f}", "-t", f"{d:.3f}", "-i", base_full,
-                 "-ar", "48000", "-ac", "2", out])
+                 "-af", af, "-ar", "48000", "-ac", "2", out])
             piezas.append(out)
         t += d
     return concat_wav(bd, piezas, os.path.join(bd, "mus_cuerpo.wav"))
@@ -104,9 +116,10 @@ def construir_sfx(conf, sched, bd):
         if seg["tipo"] == "card" and seg.get("sfx"):
             src = os.path.join(RAIZ, seg["sfx"])
             out = os.path.join(bd, f"a_sfx_{i:03d}.wav")
-            # el sfx suena en silencio: se sube y se limita para que sea presente
+            boost = conf["audio"].get("sfx_boost_db", 2.0)
+            # el sfx ya es fuerte; leve realce + limitador. Entra de inmediato (t=0).
             run(["ffmpeg", "-y", "-i", src, "-t", f"{d:.3f}",
-                 "-af", f"volume=12dB,alimiter=limit=0.92,apad,atrim=0:{d:.3f}",
+                 "-af", f"volume={boost}dB,alimiter=limit=0.97,apad,atrim=0:{d:.3f}",
                  "-ar", "48000", "-ac", "2", out])
             piezas.append(out)
         else:

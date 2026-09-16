@@ -57,7 +57,9 @@
       }
     ],
     "silencio_en_cards": true,
-    "sfx_nivel_db": -6.0
+    "sfx_nivel_db": -6.0,
+    "musica_fade_pre_card_seg": 1.2,
+    "sfx_boost_db": 2.0
   },
   "estructura_provisional_nota": "Meses clavados a las frases del texto (src/mapear_meses.py) y ajustados a pausas reales. 21 fuentes: 15 clips + 6 fotos animadas (Ken Burns). Asignacion por bloque afinable por contenido.",
   "timeline": [
@@ -82,7 +84,7 @@
       "tipo": "tarjeta",
       "id": "mes_01",
       "texto": "Mes 1",
-      "duracion_seg": 2.5,
+      "duracion_seg": 2.0,
       "sfx": "assets/sfx/mes_impacto.wav",
       "silencio_total": true
     },
@@ -102,7 +104,7 @@
       "tipo": "tarjeta",
       "id": "mes_03",
       "texto": "Mes 3",
-      "duracion_seg": 2.5,
+      "duracion_seg": 2.0,
       "sfx": "assets/sfx/mes_impacto.wav",
       "silencio_total": true
     },
@@ -121,7 +123,7 @@
       "tipo": "tarjeta",
       "id": "mes_05",
       "texto": "Mes 5",
-      "duracion_seg": 2.5,
+      "duracion_seg": 2.0,
       "sfx": "assets/sfx/mes_impacto.wav",
       "silencio_total": true
     },
@@ -141,7 +143,7 @@
       "tipo": "tarjeta",
       "id": "mes_08",
       "texto": "Mes 8",
-      "duracion_seg": 2.5,
+      "duracion_seg": 2.0,
       "sfx": "assets/sfx/mes_impacto.wav",
       "silencio_total": true
     },
@@ -160,7 +162,7 @@
       "tipo": "tarjeta",
       "id": "mes_11",
       "texto": "Mes 11",
-      "duracion_seg": 3.0,
+      "duracion_seg": 2.5,
       "nota": "2 segundos. Clima emocional + silencio de musica.",
       "sfx": "assets/sfx/mes_impacto.wav",
       "silencio_total": true
@@ -179,7 +181,7 @@
       "tipo": "tarjeta",
       "id": "mes_12",
       "texto": "Mes 12",
-      "duracion_seg": 2.5,
+      "duracion_seg": 2.0,
       "sfx": "assets/sfx/mes_impacto.wav",
       "silencio_total": true
     },
@@ -212,10 +214,7 @@
       "negro_final_seg": 0.7,
       "beat1_1": "Hay otra versión de la historia",
       "beat1_2": "donde el mes 12 no termina así.",
-      "beat2_1": "El tiempo no se recupera.",
-      "beat2_2": "Tu crecimiento, sí.",
-      "negro_beat1_seg": 3.8,
-      "negro_beat2_seg": 3.2
+      "negro_beat1_seg": 4.0
     }
   ]
 }

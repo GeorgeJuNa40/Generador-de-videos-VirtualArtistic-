@@ -254,18 +254,11 @@ def cierre(item, conf, borrador, idx):
     crf, preset = crf_preset(borrador)
     outs = []
 
-    # 1a) Primer beat: "Hay otra version de la historia / donde el mes 12 no termina asi."
+    # 1) Frase final unica: "Hay otra version de la historia / donde el mes 12 no termina asi."
     b1 = os.path.join(BUILD, f"s{idx:03d}_cierre_beat1.mp4")
     _beat_texto(item.get("beat1_1", ""), item.get("beat1_2", ""), b1,
                 W, H, FPS, item["negro_beat1_seg"], fuente, borrador)
     outs.append(b1)
-
-    # 1b) Segundo beat: "El tiempo no se recupera. / Tu crecimiento, si."
-    b2 = os.path.join(BUILD, f"s{idx+1:03d}_cierre_beat2.mp4")
-    _beat_texto(item.get("beat2_1", ""), item.get("beat2_2", ""), b2,
-                W, H, FPS, item["negro_beat2_seg"], fuente, borrador)
-    outs.append(b2)
-    idx += 1  # ya consumimos un indice extra
 
     # 2) Logo: icono a color sobre negro + nombre (blanco) + tagline (gris), con fade
     dur2 = item["negro_logo_seg"]
