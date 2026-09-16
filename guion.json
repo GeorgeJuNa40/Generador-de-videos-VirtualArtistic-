@@ -71,127 +71,105 @@
     {
       "tipo": "negro",
       "id": "intro_negro",
-      "hasta_seg": 2.0,
+      "hasta_seg": 1.0,
       "nota": "Negro corto de arranque (max 2s)."
     },
     {
       "tipo": "bloque",
       "id": "apertura",
       "hasta_seg": 30.12,
-      "clips": [
-        "foto_01",
-        "clip_16",
-        "foto_03"
-      ],
+      "clips": [],
       "nota": "Te despiertas; ves la cuenta, el millon intacto; obsesion."
     },
     {
       "tipo": "tarjeta",
       "id": "mes_01",
       "texto": "Mes 1",
-      "duracion_seg": 4.5,
-      "silencio_total": true
+      "duracion_seg": 2.0,
+      "silencio_total": true,
+      "sfx": "assets/sfx/mes_whoosh.wav"
     },
     {
       "tipo": "bloque",
       "id": "b_mes_01",
       "hasta_seg": 61.04,
-      "clips": [
-        "clip_02",
-        "foto_04",
-        "clip_03",
-        "clip_04"
-      ],
+      "clips": [],
       "nota": "Agencia + carpeta (02), firmas (foto_04), reporte 400k (03), mismas ventas (04)."
     },
     {
       "tipo": "tarjeta",
       "id": "mes_03",
       "texto": "Mes 3",
-      "duracion_seg": 4.5,
-      "silencio_total": true
+      "duracion_seg": 2.0,
+      "silencio_total": true,
+      "sfx": "assets/sfx/mes_whoosh.wav"
     },
     {
       "tipo": "bloque",
       "id": "b_mes_03",
       "hasta_seg": 90.36,
-      "clips": [
-        "clip_05",
-        "clip_06",
-        "foto_05"
-      ],
+      "clips": [],
       "nota": "Pauta Meta/Google (05), mensajes en visto (06), dinero gastado (foto_05)."
     },
     {
       "tipo": "tarjeta",
       "id": "mes_05",
       "texto": "Mes 5",
-      "duracion_seg": 4.5,
-      "silencio_total": true
+      "duracion_seg": 2.0,
+      "silencio_total": true,
+      "sfx": "assets/sfx/mes_whoosh.wav"
     },
     {
       "tipo": "bloque",
       "id": "b_mes_05",
       "hasta_seg": 123.64,
-      "clips": [
-        "clip_07",
-        "clip_08",
-        "clip_09",
-        "foto_02"
-      ],
+      "clips": [],
       "nota": "Contrata interno (07), entrega disenos (08), enemigo invisible (09), afuera (foto_02)."
     },
     {
       "tipo": "tarjeta",
       "id": "mes_08",
       "texto": "Mes 8",
-      "duracion_seg": 4.5,
-      "silencio_total": true
+      "duracion_seg": 2.0,
+      "silencio_total": true,
+      "sfx": "assets/sfx/mes_whoosh.wav"
     },
     {
       "tipo": "bloque",
       "id": "b_mes_08",
       "hasta_seg": 155.6,
-      "clips": [
-        "clip_10",
-        "clip_11",
-        "clip_12"
-      ],
+      "clips": [],
       "nota": "Competidor en todos lados (10), mejor para nadie (11), compra por panico (12)."
     },
     {
       "tipo": "tarjeta",
       "id": "mes_11",
       "texto": "Mes 11",
-      "duracion_seg": 5.0,
+      "duracion_seg": 2.0,
       "nota": "2 segundos. Clima emocional + silencio de musica.",
-      "silencio_total": true
+      "silencio_total": true,
+      "sfx": "assets/sfx/mes_whoosh.wav"
     },
     {
       "tipo": "bloque",
       "id": "b_mes_11",
       "hasta_seg": 176.04,
-      "clips": [
-        "clip_13",
-        "clip_14"
-      ],
+      "clips": [],
       "nota": "La pregunta que evitas (13), tu hija te pregunta (14). SILENCIO."
     },
     {
       "tipo": "tarjeta",
       "id": "mes_12",
       "texto": "Mes 12",
-      "duracion_seg": 4.5,
-      "silencio_total": true
+      "duracion_seg": 2.0,
+      "silencio_total": true,
+      "sfx": "assets/sfx/mes_whoosh.wav"
     },
     {
       "tipo": "bloque",
       "id": "b_mes_12",
       "hasta_seg": 190.66,
-      "clips": [
-        "clip_15",
-        "foto_06"
-      ],
+      "clips": [],
       "nota": "Marca cero (15), el negocio cerrado (foto_06)."
     },
     {
@@ -222,14 +200,34 @@
   ],
   "pins": [
     {
+      "clip": "foto_01",
+      "en": 1.0,
+      "nota": "Te despiertas y descubres"
+    },
+    {
       "clip": "nuevo_01",
       "en": 2.32,
       "nota": "doce meses de vida"
     },
     {
+      "clip": "clip_16",
+      "en": 4.12,
+      "nota": "Tienes un millon de pesos"
+    },
+    {
+      "clip": "foto_03",
+      "en": 20.28,
+      "nota": "Miras tu cuenta por primera vez"
+    },
+    {
       "clip": "nuevo_13",
       "en": 31.32,
       "nota": "te promete presencia"
+    },
+    {
+      "clip": "clip_02",
+      "en": 33.96,
+      "nota": "una carpeta preciosa"
     },
     {
       "clip": "nuevo_09",
@@ -247,9 +245,24 @@
       "nota": "primer reporte"
     },
     {
+      "clip": "clip_03",
+      "en": 46.88,
+      "nota": "cuatrocientos mil personas"
+    },
+    {
       "clip": "nuevo_05",
       "en": 54.2,
       "nota": "esto va a ser facil"
+    },
+    {
+      "clip": "clip_04",
+      "en": 58.64,
+      "nota": "Son las mismas del mes pasado"
+    },
+    {
+      "clip": "clip_05",
+      "en": 61.04,
+      "nota": "Decides subir de nivel"
     },
     {
       "clip": "nuevo_06",
@@ -257,9 +270,19 @@
       "nota": "Meta, Google"
     },
     {
+      "clip": "foto_05",
+      "en": 66.76,
+      "nota": "ciento cincuenta mil pesos"
+    },
+    {
       "clip": "nuevo_12",
       "en": 70.68,
       "nota": "Entran mensajes"
+    },
+    {
+      "clip": "clip_06",
+      "en": 79.08,
+      "nota": "muriendo despacio"
     },
     {
       "clip": "nuevo_08",
@@ -267,9 +290,34 @@
       "nota": "Contratas a alguien interno"
     },
     {
+      "clip": "clip_07",
+      "en": 96.2,
+      "nota": "prestaciones, equipo"
+    },
+    {
+      "clip": "clip_08",
+      "en": 105.76,
+      "nota": "Te entrega disenos"
+    },
+    {
       "clip": "nuevo_10",
       "en": 108.72,
-      "nota": "te entrega excusas"
+      "nota": "excusas bien redactadas"
+    },
+    {
+      "clip": "clip_09",
+      "en": 120.28,
+      "nota": "peleando contra un enemigo"
+    },
+    {
+      "clip": "clip_10",
+      "en": 130.52,
+      "nota": "esta en todos lados"
+    },
+    {
+      "clip": "foto_02",
+      "en": 136.52,
+      "nota": "en tu bodega"
     },
     {
       "clip": "nuevo_03",
@@ -282,14 +330,44 @@
       "nota": "comprar por panico"
     },
     {
+      "clip": "clip_12",
+      "en": 142.32,
+      "nota": "Otro community manager"
+    },
+    {
+      "clip": "clip_11",
+      "en": 152.8,
+      "nota": "para sentir que estas haciendo algo"
+    },
+    {
       "clip": "nuevo_07",
       "en": 155.6,
-      "nota": "cuatro meses evitando"
+      "nota": "cuatro meses"
+    },
+    {
+      "clip": "clip_13",
+      "en": 161.08,
+      "nota": "Cuanto llevas invertido"
+    },
+    {
+      "clip": "clip_14",
+      "en": 165.36,
+      "nota": "Tu hija te pregunta"
     },
     {
       "clip": "nuevo_14",
       "en": 173.16,
       "nota": "banda que no avanza"
+    },
+    {
+      "clip": "clip_15",
+      "en": 179.04,
+      "nota": "Marca cero"
+    },
+    {
+      "clip": "foto_06",
+      "en": 186.64,
+      "nota": "El dinero se fue"
     },
     {
       "clip": "nuevo_15",

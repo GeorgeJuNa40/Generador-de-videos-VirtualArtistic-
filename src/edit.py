@@ -148,40 +148,31 @@ def concat(archivos, salida):
 # ---------------------------------------------------------------- ensamblado
 
 def shots_bloque(W, fill, pins, pin_dur):
-    """Devuelve [(clip, dur)] que suman W. Los pins van en su offset exacto;
-    el resto del tiempo se reparte entre los clips de relleno (fill)."""
+    """Devuelve [(clip, dur)] que suman W.
+    Con pins: se 'teje' el bloque -> cada clip corre desde su frase hasta la
+    frase del siguiente (el primero cubre desde el inicio del bloque).
+    Sin pins: reparte los clips de relleno de forma uniforme."""
     pins = sorted(pins, key=lambda x: x[0])
-    pins = [(max(0.0, min(off, W - 0.3)), c) for off, c in pins]
-    pin_durs = []
-    for i, (off, c) in enumerate(pins):
-        nxt = pins[i + 1][0] if i + 1 < len(pins) else W
-        pin_durs.append(max(0.6, min(pin_dur, nxt - off)))
-    fill_time = max(0.0, W - sum(pin_durs))
-    n_fill = max(1, len(fill))
-    share = fill_time / n_fill if fill_time > 0 else 0.0
+    pins = [(max(0.0, min(off, W - 0.1)), c) for off, c in pins]
 
-    shots = []
-    cursor = 0.0; pi = 0; fi = 0
-    guard = 0
-    while cursor < W - 0.05 and guard < 500:
-        guard += 1
-        if pi < len(pins) and cursor >= pins[pi][0] - 0.05:
-            shots.append((pins[pi][1], pin_durs[pi]))
-            cursor += pin_durs[pi]; pi += 1
-            continue
-        limite = pins[pi][0] if pi < len(pins) else W
-        hueco = limite - cursor
-        if hueco < 0.4:
-            if shots:
-                shots[-1] = (shots[-1][0], shots[-1][1] + hueco)
-            cursor = limite; continue
-        d = min(share if share > 0.4 else hueco, hueco)
-        clip = fill[fi % len(fill)] if fill else None
-        shots.append((clip, d)); cursor += d; fi += 1
-    total = sum(d for _, d in shots)
-    if shots and abs(W - total) > 0.001:
+    if pins:
+        offs = [o for o, c in pins]
+        clips = [c for o, c in pins]
+        shots = []
+        for i, c in enumerate(clips):
+            a = 0.0 if i == 0 else offs[i]
+            b = offs[i + 1] if i + 1 < len(clips) else W
+            shots.append((c, max(0.3, b - a)))
+        total = sum(d for _, d in shots)
         shots[-1] = (shots[-1][0], shots[-1][1] + (W - total))
-    return shots
+        return shots
+
+    # sin pins: reparto uniforme del relleno (o negro si no hay)
+    n = max(1, len(fill))
+    share = W / n
+    if not fill:
+        return [(None, W)]
+    return [(fill[i], share) for i in range(len(fill))] or [(None, W)]
 
 
 def _pool_reuso(conf):
