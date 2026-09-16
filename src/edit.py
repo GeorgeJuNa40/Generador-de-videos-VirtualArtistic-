@@ -275,9 +275,10 @@ def cierre(item, conf, borrador, idx):
     out2 = os.path.join(BUILD, f"s{idx:03d}_cierre_logo.mp4")
     logo_img = os.path.join(RAIZ, item.get("logo_imagen", "")) if item.get("logo_imagen") else ""
     if logo_img and os.path.exists(logo_img):
+        # llenar el ancho y recortar (quita las barras negras de la imagen -> logo mas grande)
         vf = (
-            f"scale={W}:{H}:force_original_aspect_ratio=decrease,"
-            f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:color=black,"
+            f"scale={W}:{H}:force_original_aspect_ratio=increase,"
+            f"crop={W}:{H},"
             f"fade=t=in:st=0:d=0.7,fade=t=out:st={dur2-0.6:.2f}:d=0.6,format=yuv420p"
         )
         run(["ffmpeg", "-y", "-loop", "1", "-framerate", str(FPS), "-i", logo_img,
