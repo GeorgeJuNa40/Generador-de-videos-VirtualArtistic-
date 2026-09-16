@@ -104,9 +104,9 @@ def construir_sfx(conf, sched, bd):
         if seg["tipo"] == "card" and seg.get("sfx"):
             src = os.path.join(RAIZ, seg["sfx"])
             out = os.path.join(bd, f"a_sfx_{i:03d}.wav")
-            # ajustar el sfx a la duracion de la tarjeta y al nivel deseado
+            # el sfx suena en silencio: se sube y se limita para que sea presente
             run(["ffmpeg", "-y", "-i", src, "-t", f"{d:.3f}",
-                 "-af", f"volume={nivel}dB,apad,atrim=0:{d:.3f}",
+                 "-af", f"volume=12dB,alimiter=limit=0.92,apad,atrim=0:{d:.3f}",
                  "-ar", "48000", "-ac", "2", out])
             piezas.append(out)
         else:
