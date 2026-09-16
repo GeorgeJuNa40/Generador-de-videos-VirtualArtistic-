@@ -35,7 +35,7 @@
   },
   "estructura_provisional_nota": "Meses clavados a las frases del texto (src/mapear_meses.py) y ajustados a pausas reales. 21 fuentes: 15 clips + 6 fotos animadas (Ken Burns). Asignacion por bloque afinable por contenido.",
   "timeline": [
-    { "tipo": "negro",   "id": "intro_negro", "hasta_seg": 11.0, "nota": "Pantalla negra + solo voz. INTENCIONAL." },
+    { "tipo": "negro",   "id": "intro_negro", "hasta_seg": 2.0, "nota": "Negro corto de arranque (max 2s)." },
 
     { "tipo": "bloque",  "id": "apertura",  "hasta_seg": 27.6, "clips": ["foto_01", "clip_01", "foto_03"], "nota": "Te despiertas; ves la cuenta, el millon intacto; obsesion." },
 

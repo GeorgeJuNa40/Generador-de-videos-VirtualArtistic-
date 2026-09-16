@@ -280,6 +280,7 @@ def main():
     ap.add_argument("--borrador", action="store_true")
     ap.add_argument("--reuso", action="store_true",
                     help="rellena clips faltantes reusando los reales (para preview)")
+    ap.add_argument("--sin-subs", action="store_true", help="no quemar subtitulos")
     args = ap.parse_args()
 
     conf = cfg()
@@ -306,8 +307,22 @@ def main():
     else:
         print("== Mezclando audio (voz + musica) ==")
         from audio import mezclar
+        con_audio = os.path.join(BUILD, "con_audio.mp4")
+        mezclar(conf, con_fade, con_audio, BUILD)
+
         destino = os.path.join(OUTPUT, "borrador.mp4" if args.borrador else "cortometraje.mp4")
-        mezclar(conf, con_fade, destino, BUILD)
+        if args.sin_subs:
+            os.replace(con_audio, destino)
+        else:
+            print("== Generando y quemando subtitulos ==")
+            import subtitulos
+            subtitulos.main()
+            ass = os.path.join(BUILD, "subtitulos.ass").replace(":", "\\:")
+            crf, preset = crf_preset(args.borrador)
+            run(["ffmpeg", "-y", "-i", con_audio,
+                 "-vf", f"subtitles='{ass}'",
+                 "-c:v", "libx264", "-crf", crf, "-preset", preset,
+                 "-pix_fmt", "yuv420p", "-c:a", "copy", destino])
 
     dur = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                           "-of", "default=nokey=1:noprint_wrappers=1", destino],
