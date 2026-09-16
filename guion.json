@@ -25,45 +25,177 @@
     "musica_base": "assets/musica/opcion3_itfollowsyou.mp3",
     "musica_climax": "assets/musica/opcion1_tension.mp3",
     "musica_nivel_db": -20.0,
-    "musica_rango_db": [-22.0, -18.0],
+    "musica_rango_db": [
+      -22.0,
+      -18.0
+    ],
     "regiones": [
-      { "desde_seg": 0.0,   "hasta_seg": 130.0, "fuente": "base",     "nota": "Musica base suave durante casi todo el video." },
-      { "desde_seg": 130.0, "hasta_seg": 146.0, "fuente": "climax",   "nota": "Entra la tension construyendo hacia el clima (bloque Mes 11)." },
-      { "desde_seg": 146.0, "hasta_seg": 160.0, "fuente": "silencio", "nota": "SILENCIO TOTAL (~14s): '¿Cuánto llevas invertido?' + 'Tu hija te pregunta...'. Punto clave." },
-      { "desde_seg": 160.0, "hasta_seg": 177.4, "fuente": "base",     "nota": "Regresa la musica base hasta el cierre." }
+      {
+        "desde_seg": 0.0,
+        "hasta_seg": 130.0,
+        "fuente": "base",
+        "nota": "Musica base suave durante casi todo el video."
+      },
+      {
+        "desde_seg": 130.0,
+        "hasta_seg": 146.0,
+        "fuente": "climax",
+        "nota": "Entra la tension construyendo hacia el clima (bloque Mes 11)."
+      },
+      {
+        "desde_seg": 146.0,
+        "hasta_seg": 160.0,
+        "fuente": "silencio",
+        "nota": "SILENCIO TOTAL (~14s): '¿Cuánto llevas invertido?' + 'Tu hija te pregunta...'. Punto clave."
+      },
+      {
+        "desde_seg": 160.0,
+        "hasta_seg": 177.4,
+        "fuente": "base",
+        "nota": "Regresa la musica base hasta el cierre."
+      }
     ]
   },
   "estructura_provisional_nota": "Meses clavados a las frases del texto (src/mapear_meses.py) y ajustados a pausas reales. 21 fuentes: 15 clips + 6 fotos animadas (Ken Burns). Asignacion por bloque afinable por contenido.",
   "timeline": [
-    { "tipo": "negro",   "id": "intro_negro", "hasta_seg": 2.0, "nota": "Negro corto de arranque (max 2s)." },
-
-    { "tipo": "bloque",  "id": "apertura",  "hasta_seg": 27.6, "clips": ["foto_01", "clip_01", "foto_03"], "nota": "Te despiertas; ves la cuenta, el millon intacto; obsesion." },
-
-    { "tipo": "tarjeta", "id": "mes_01", "texto": "Mes 1",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_01", "hasta_seg": 56.4, "clips": ["clip_02", "foto_04", "clip_03", "clip_04"], "nota": "Agencia + carpeta (02), firmas (foto_04), reporte 400k (03), mismas ventas (04)." },
-
-    { "tipo": "tarjeta", "id": "mes_03", "texto": "Mes 3",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_03", "hasta_seg": 84.3, "clips": ["clip_05", "clip_06", "foto_05"], "nota": "Pauta Meta/Google (05), mensajes en visto (06), dinero gastado (foto_05)." },
-
-    { "tipo": "tarjeta", "id": "mes_05", "texto": "Mes 5",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_05", "hasta_seg": 114.7, "clips": ["clip_07", "clip_08", "clip_09", "foto_02"], "nota": "Contrata interno (07), entrega disenos (08), enemigo invisible (09), afuera (foto_02)." },
-
-    { "tipo": "tarjeta", "id": "mes_08", "texto": "Mes 8",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_08", "hasta_seg": 144.5, "clips": ["clip_10", "clip_11", "clip_12"], "nota": "Competidor en todos lados (10), mejor para nadie (11), compra por panico (12)." },
-
-    { "tipo": "tarjeta", "id": "mes_11", "texto": "Mes 11", "duracion_seg": 2.0, "nota": "2 segundos. Clima emocional + silencio de musica." },
-    { "tipo": "bloque",  "id": "b_mes_11", "hasta_seg": 164.1, "clips": ["clip_13", "clip_14"], "nota": "La pregunta que evitas (13), tu hija te pregunta (14). SILENCIO." },
-
-    { "tipo": "tarjeta", "id": "mes_12", "texto": "Mes 12", "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_12", "hasta_seg": 177.32, "clips": ["clip_15", "foto_06"], "nota": "Marca cero (15), el negocio cerrado (foto_06)." },
-
-    { "tipo": "fundido_negro", "id": "fade_final", "en_seg": 176.1, "duracion_seg": 1.2, "nota": "Fundido a negro justo al terminar la narracion (177s)." },
-    { "tipo": "cierre", "id": "cierre",
+    {
+      "tipo": "negro",
+      "id": "intro_negro",
+      "hasta_seg": 2.0,
+      "nota": "Negro corto de arranque (max 2s)."
+    },
+    {
+      "tipo": "bloque",
+      "id": "apertura",
+      "hasta_seg": 27.6,
+      "clips": [
+        "foto_01",
+        "clip_01",
+        "foto_03"
+      ],
+      "nota": "Te despiertas; ves la cuenta, el millon intacto; obsesion."
+    },
+    {
+      "tipo": "tarjeta",
+      "id": "mes_01",
+      "texto": "Mes 1",
+      "duracion_seg": 2.0
+    },
+    {
+      "tipo": "bloque",
+      "id": "b_mes_01",
+      "hasta_seg": 56.4,
+      "clips": [
+        "clip_02",
+        "foto_04",
+        "clip_03",
+        "clip_04"
+      ],
+      "nota": "Agencia + carpeta (02), firmas (foto_04), reporte 400k (03), mismas ventas (04)."
+    },
+    {
+      "tipo": "tarjeta",
+      "id": "mes_03",
+      "texto": "Mes 3",
+      "duracion_seg": 2.0
+    },
+    {
+      "tipo": "bloque",
+      "id": "b_mes_03",
+      "hasta_seg": 84.3,
+      "clips": [
+        "clip_05",
+        "clip_06",
+        "foto_05"
+      ],
+      "nota": "Pauta Meta/Google (05), mensajes en visto (06), dinero gastado (foto_05)."
+    },
+    {
+      "tipo": "tarjeta",
+      "id": "mes_05",
+      "texto": "Mes 5",
+      "duracion_seg": 2.0
+    },
+    {
+      "tipo": "bloque",
+      "id": "b_mes_05",
+      "hasta_seg": 114.7,
+      "clips": [
+        "clip_07",
+        "clip_08",
+        "clip_09",
+        "foto_02"
+      ],
+      "nota": "Contrata interno (07), entrega disenos (08), enemigo invisible (09), afuera (foto_02)."
+    },
+    {
+      "tipo": "tarjeta",
+      "id": "mes_08",
+      "texto": "Mes 8",
+      "duracion_seg": 2.0
+    },
+    {
+      "tipo": "bloque",
+      "id": "b_mes_08",
+      "hasta_seg": 144.5,
+      "clips": [
+        "clip_10",
+        "clip_11",
+        "clip_12"
+      ],
+      "nota": "Competidor en todos lados (10), mejor para nadie (11), compra por panico (12)."
+    },
+    {
+      "tipo": "tarjeta",
+      "id": "mes_11",
+      "texto": "Mes 11",
+      "duracion_seg": 3.0,
+      "nota": "2 segundos. Clima emocional + silencio de musica."
+    },
+    {
+      "tipo": "bloque",
+      "id": "b_mes_11",
+      "hasta_seg": 164.1,
+      "clips": [
+        "clip_13",
+        "clip_14"
+      ],
+      "nota": "La pregunta que evitas (13), tu hija te pregunta (14). SILENCIO."
+    },
+    {
+      "tipo": "tarjeta",
+      "id": "mes_12",
+      "texto": "Mes 12",
+      "duracion_seg": 2.0
+    },
+    {
+      "tipo": "bloque",
+      "id": "b_mes_12",
+      "hasta_seg": 177.32,
+      "clips": [
+        "clip_15",
+        "foto_06"
+      ],
+      "nota": "Marca cero (15), el negocio cerrado (foto_06)."
+    },
+    {
+      "tipo": "fundido_negro",
+      "id": "fade_final",
+      "en_seg": 176.1,
+      "duracion_seg": 1.2,
+      "nota": "Fundido a negro justo al terminar la narracion (177s)."
+    },
+    {
+      "tipo": "cierre",
+      "id": "cierre",
       "texto_final_1": "El tiempo no se recupera.",
       "texto_final_2": "Tu crecimiento, sí.",
       "logo_icono": "assets/logo/icono.png",
       "logo_nombre": "VirtualArtistic",
       "logo_tagline": "Digital Transformation & Growth",
-      "negro_texto_seg": 4.5, "negro_logo_seg": 3.5, "negro_final_seg": 1.5 }
+      "negro_texto_seg": 3.5,
+      "negro_logo_seg": 3.0,
+      "negro_final_seg": 1.0
+    }
   ]
 }
