@@ -54,9 +54,14 @@ def dur_archivo(p):
         capture_output=True, text=True).stdout.strip())
 
 
+NUEVOS = os.path.join(RAIZ, "assets", "nuevos")
+
+
 def clip_path(n):
     if es_foto(n):
         return os.path.join(FOTOS, n + ".jpg")
+    if str(n).startswith("nuevo_"):
+        return os.path.join(NUEVOS, n + ".mp4")
     return os.path.join(CLIPS, n + ".mp4")
 
 
@@ -142,6 +147,43 @@ def concat(archivos, salida):
 
 # ---------------------------------------------------------------- ensamblado
 
+def shots_bloque(W, fill, pins, pin_dur):
+    """Devuelve [(clip, dur)] que suman W. Los pins van en su offset exacto;
+    el resto del tiempo se reparte entre los clips de relleno (fill)."""
+    pins = sorted(pins, key=lambda x: x[0])
+    pins = [(max(0.0, min(off, W - 0.3)), c) for off, c in pins]
+    pin_durs = []
+    for i, (off, c) in enumerate(pins):
+        nxt = pins[i + 1][0] if i + 1 < len(pins) else W
+        pin_durs.append(max(0.6, min(pin_dur, nxt - off)))
+    fill_time = max(0.0, W - sum(pin_durs))
+    n_fill = max(1, len(fill))
+    share = fill_time / n_fill if fill_time > 0 else 0.0
+
+    shots = []
+    cursor = 0.0; pi = 0; fi = 0
+    guard = 0
+    while cursor < W - 0.05 and guard < 500:
+        guard += 1
+        if pi < len(pins) and cursor >= pins[pi][0] - 0.05:
+            shots.append((pins[pi][1], pin_durs[pi]))
+            cursor += pin_durs[pi]; pi += 1
+            continue
+        limite = pins[pi][0] if pi < len(pins) else W
+        hueco = limite - cursor
+        if hueco < 0.4:
+            if shots:
+                shots[-1] = (shots[-1][0], shots[-1][1] + hueco)
+            cursor = limite; continue
+        d = min(share if share > 0.4 else hueco, hueco)
+        clip = fill[fi % len(fill)] if fill else None
+        shots.append((clip, d)); cursor += d; fi += 1
+    total = sum(d for _, d in shots)
+    if shots and abs(W - total) > 0.001:
+        shots[-1] = (shots[-1][0], shots[-1][1] + (W - total))
+    return shots
+
+
 def _pool_reuso(conf):
     """Lista ordenada de clips reales disponibles, para rellenar huecos por reuso."""
     pool = []
@@ -157,6 +199,7 @@ def construir(conf, borrador, reuso=False):
     W, H, FPS = conf["meta"]["ancho"], conf["meta"]["alto"], conf["meta"]["fps"]
     est = conf["estilo"]
     fuente = os.path.join(RAIZ, est["tarjeta_fuente"])
+    pin_dur = est.get("pin_duracion_seg", 4.0)
     os.makedirs(BUILD, exist_ok=True)
 
     pool = _pool_reuso(conf) if reuso else []
@@ -192,22 +235,25 @@ def construir(conf, borrador, reuso=False):
 
         elif tt == "bloque":
             ventana = item["hasta_seg"] - vc   # ventana = trozo de VOZ que cubre el bloque
-            clips = item["clips"]
-            n = len(clips)
-            share = ventana / n
-            for c in clips:
-                out = os.path.join(BUILD, f"s{idx:03d}_{c}.mp4")
-                if existe(c) and es_foto(c):
-                    anima_foto(c, out, W, H, FPS, share, borrador)
-                elif existe(c):
-                    normaliza_clip(c, out, W, H, FPS, share, borrador)
+            # pins (clips nuevos) que caen dentro de este bloque -> offset dentro del bloque
+            pins_bloque = [(pn["en"] - vc, pn["clip"]) for pn in conf.get("pins", [])
+                           if vc - 0.01 <= pn["en"] < item["hasta_seg"] - 0.01]
+            shots = shots_bloque(ventana, item["clips"], pins_bloque, pin_dur)
+            for c, d in shots:
+                out = os.path.join(BUILD, f"s{idx:03d}_{c or 'negro'}.mp4")
+                if c and existe(c) and es_foto(c):
+                    anima_foto(c, out, W, H, FPS, d, borrador)
+                elif c and existe(c):
+                    normaliza_clip(c, out, W, H, FPS, d, borrador)
                 elif reuso and pool:
-                    faltantes.append(c)
+                    if c:
+                        faltantes.append(c)
                     real = pool[rr % len(pool)]; rr += 1
-                    normaliza_clip(real, out, W, H, FPS, share, borrador)
+                    normaliza_clip(real, out, W, H, FPS, d, borrador)
                 else:
-                    faltantes.append(c)
-                    negro(out, W, H, FPS, share, borrador)
+                    if c:
+                        faltantes.append(c)
+                    negro(out, W, H, FPS, d, borrador)
                 segmentos.append(out); idx += 1
             orden.append({"tipo": "voz", "dur": round(ventana, 3), "voz_ini": round(vc, 3)})
             if item["id"] == "b_mes_11":

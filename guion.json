@@ -16,7 +16,8 @@
     "clip_duracion_min_seg": 3.0,
     "clip_duracion_max_seg": 4.0,
     "cobertura": "ralenti",
-    "cobertura_nota": "La voz dura 177s pero hay pocos clips. Estrategia por defecto: ralentizar cada clip a su ventana de tiempo (encaja con el tono lento/melancolico) descartando el ultimo segundo degradado. Alternativa: reuso de clips."
+    "cobertura_nota": "La voz dura 177s pero hay pocos clips. Estrategia por defecto: ralentizar cada clip a su ventana de tiempo (encaja con el tono lento/melancolico) descartando el ultimo segundo degradado. Alternativa: reuso de clips.",
+    "pin_duracion_seg": 4.0
   },
   "audio": {
     "voz_archivo": "assets/voz/voz_off.wav",
@@ -217,6 +218,83 @@
       "beat2_2": "Tu crecimiento, sí.",
       "negro_beat2_seg": 3.6,
       "logo_imagen": "assets/logo/logo_original.jpg"
+    }
+  ],
+  "pins": [
+    {
+      "clip": "nuevo_01",
+      "en": 2.32,
+      "nota": "doce meses de vida"
+    },
+    {
+      "clip": "nuevo_13",
+      "en": 31.32,
+      "nota": "te promete presencia"
+    },
+    {
+      "clip": "nuevo_09",
+      "en": 36.52,
+      "nota": "Firmas sin preguntar"
+    },
+    {
+      "clip": "nuevo_04",
+      "en": 42.36,
+      "nota": "Ochenta mil pesos"
+    },
+    {
+      "clip": "nuevo_02",
+      "en": 44.2,
+      "nota": "primer reporte"
+    },
+    {
+      "clip": "nuevo_05",
+      "en": 54.2,
+      "nota": "esto va a ser facil"
+    },
+    {
+      "clip": "nuevo_06",
+      "en": 64.24,
+      "nota": "Meta, Google"
+    },
+    {
+      "clip": "nuevo_12",
+      "en": 70.68,
+      "nota": "Entran mensajes"
+    },
+    {
+      "clip": "nuevo_08",
+      "en": 90.36,
+      "nota": "Contratas a alguien interno"
+    },
+    {
+      "clip": "nuevo_10",
+      "en": 108.72,
+      "nota": "te entrega excusas"
+    },
+    {
+      "clip": "nuevo_03",
+      "en": 137.96,
+      "nota": "el mejor para nadie"
+    },
+    {
+      "clip": "nuevo_11",
+      "en": 140.12,
+      "nota": "comprar por panico"
+    },
+    {
+      "clip": "nuevo_07",
+      "en": 155.6,
+      "nota": "cuatro meses evitando"
+    },
+    {
+      "clip": "nuevo_14",
+      "en": 173.16,
+      "nota": "banda que no avanza"
+    },
+    {
+      "clip": "nuevo_15",
+      "en": 188.04,
+      "nota": "devolver los doce meses"
     }
   ]
 }
