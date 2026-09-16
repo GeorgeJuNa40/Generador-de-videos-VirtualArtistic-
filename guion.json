@@ -2,7 +2,7 @@
   "meta": {
     "titulo": "12 meses / Un millon",
     "descripcion": "Cortometraje narrativo 2D. Segunda persona. Un empresario tiene 12 meses y un millon de pesos para hacer crecer su negocio y lo pierde todo. No es anuncio: es una historia.",
-    "duracion_objetivo_seg": 177.3,
+    "duracion_objetivo_seg": 190.7,
     "ancho": 1080,
     "alto": 1920,
     "fps": 30
@@ -76,7 +76,7 @@
     {
       "tipo": "bloque",
       "id": "apertura",
-      "hasta_seg": 29.3,
+      "hasta_seg": 30.12,
       "clips": [
         "foto_01",
         "clip_16",
@@ -88,14 +88,13 @@
       "tipo": "tarjeta",
       "id": "mes_01",
       "texto": "Mes 1",
-      "duracion_seg": 3.0,
-      "sfx": "assets/sfx/mes_impacto.wav",
+      "duracion_seg": 4.5,
       "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_01",
-      "hasta_seg": 56.4,
+      "hasta_seg": 61.04,
       "clips": [
         "clip_02",
         "foto_04",
@@ -108,14 +107,13 @@
       "tipo": "tarjeta",
       "id": "mes_03",
       "texto": "Mes 3",
-      "duracion_seg": 3.0,
-      "sfx": "assets/sfx/mes_impacto.wav",
+      "duracion_seg": 4.5,
       "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_03",
-      "hasta_seg": 84.3,
+      "hasta_seg": 90.36,
       "clips": [
         "clip_05",
         "clip_06",
@@ -127,14 +125,13 @@
       "tipo": "tarjeta",
       "id": "mes_05",
       "texto": "Mes 5",
-      "duracion_seg": 3.0,
-      "sfx": "assets/sfx/mes_impacto.wav",
+      "duracion_seg": 4.5,
       "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_05",
-      "hasta_seg": 114.7,
+      "hasta_seg": 123.64,
       "clips": [
         "clip_07",
         "clip_08",
@@ -147,14 +144,13 @@
       "tipo": "tarjeta",
       "id": "mes_08",
       "texto": "Mes 8",
-      "duracion_seg": 3.0,
-      "sfx": "assets/sfx/mes_impacto.wav",
+      "duracion_seg": 4.5,
       "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_08",
-      "hasta_seg": 144.5,
+      "hasta_seg": 155.6,
       "clips": [
         "clip_10",
         "clip_11",
@@ -166,15 +162,14 @@
       "tipo": "tarjeta",
       "id": "mes_11",
       "texto": "Mes 11",
-      "duracion_seg": 3.5,
+      "duracion_seg": 5.0,
       "nota": "2 segundos. Clima emocional + silencio de musica.",
-      "sfx": "assets/sfx/mes_impacto.wav",
       "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_11",
-      "hasta_seg": 164.1,
+      "hasta_seg": 176.04,
       "clips": [
         "clip_13",
         "clip_14"
@@ -185,14 +180,13 @@
       "tipo": "tarjeta",
       "id": "mes_12",
       "texto": "Mes 12",
-      "duracion_seg": 3.0,
-      "sfx": "assets/sfx/mes_impacto.wav",
+      "duracion_seg": 4.5,
       "silencio_total": true
     },
     {
       "tipo": "bloque",
       "id": "b_mes_12",
-      "hasta_seg": 177.32,
+      "hasta_seg": 190.66,
       "clips": [
         "clip_15",
         "foto_06"

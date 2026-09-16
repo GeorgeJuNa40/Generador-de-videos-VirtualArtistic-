@@ -98,32 +98,12 @@ def ts(s):
 
 def main():
     os.makedirs(os.path.join(RAIZ, "build"), exist_ok=True)
-    T = dur(VOZ)
-    runs = tramos_habla(T)
-    lineas = lineas_texto()
-    total_chars = sum(len(l) for l in lineas)
-    t_of = char2time(runs, total_chars)
-
-    # tiempos de cada linea via mapa caracter->tiempo (anclado al habla real)
-    bordes = [0.0]; acum = 0
-    for l in lineas:
-        acum += len(l)
-        bordes.append(t_of(acum))
-    for i in range(1, len(bordes)):
-        if bordes[i] <= bordes[i-1] + 0.25:
-            bordes[i] = bordes[i-1] + 0.25
-
-    # fusionar lineas demasiado cortas (< 1.0s) para que se lean
-    MIN = 1.0
-    fl, fb = [], [bordes[0]]
-    i = 0
-    while i < len(lineas):
-        texto = lineas[i]; fin = bordes[i+1]; j = i
-        while (fin - fb[-1]) < MIN and j+1 < len(lineas) \
-                and len(texto + " " + lineas[j+1]) <= MAX_CHARS + 22:
-            j += 1; texto = texto + " " + lineas[j]; fin = bordes[j+1]
-        fl.append(texto); fb.append(fin); i = j + 1
-    lineas, bordes = fl, fb
+    # ALINEACION FORZADA (aeneas): tiempos exactos por fragmento (voz)
+    import alinear
+    frags = alinear.alinear()
+    lineas = [t for _, _, t in frags]
+    inis = [f[0] for f in frags]   # inicio exacto de cada fragmento (voz)
+    ends = [f[1] for f in frags]   # fin exacto de cada fragmento (voz)
 
     # desplazar al tiempo ENSAMBLADO (sumar pausas de meses previas) con schedule.json
     card_intervalos = []   # intervalos (en tiempo ensamblado) donde se ve la tarjeta de mes
@@ -136,9 +116,15 @@ def main():
                 vacc += seg["dur"]
             else:
                 cards.append((vacc, seg["dur"]))
-        def shift(v):
+        # el inicio suma las pausas anteriores (incluida la del mes que empieza justo
+        # en la frontera); el fin NO cuenta la pausa que arranca en su propio limite,
+        # asi el subtitulo termina antes del mes y no se pisa con la tarjeta.
+        def shift_ini(v):
             return v + sum(d for vb, d in cards if v >= vb - 0.05)
-        bordes = [shift(b) for b in bordes]
+        def shift_fin(v):
+            return v + sum(d for vb, d in cards if v > vb + 0.05)
+        inis = [shift_ini(x) for x in inis]
+        ends = [shift_fin(x) for x in ends]
         # intervalos ensamblados de cada tarjeta (para que NO haya subtitulo encima)
         t = 0.0
         for seg in sched["orden"]:
@@ -173,11 +159,11 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     with open(ASS, "w", encoding="utf-8") as f:
         f.write(cab)
         for i, l in enumerate(lineas):
-            s, e = limpio_de_cards(bordes[i], bordes[i+1])
-            if e - s < 0.3:   # quedo demasiado corto tras recortar -> se omite
+            s, e = limpio_de_cards(inis[i], ends[i])
+            if e - s < 0.25:
                 continue
             f.write(f"Dialogue: 0,{ts(s)},{ts(e)},Sub,,0,0,0,,{l}\n"); n += 1
-    print(f"Voz {T:.1f}s | {len(runs)} tramos habla | {n} subtitulos -> {ASS}")
+    print(f"aeneas | {n} subtitulos alineados -> {ASS}")
 
 
 if __name__ == "__main__":
