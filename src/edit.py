@@ -69,17 +69,21 @@ def existe(n):
     return not str(n).startswith("PENDIENTE") and os.path.exists(clip_path(n))
 
 
-def anima_foto(nombre, salida, W, H, FPS, target, borrador):
-    """Ken Burns: zoom lento sobre una foto fija hasta cubrir `target` seg (nitido)."""
+def anima_foto(nombre, salida, W, H, FPS, target, borrador, fade_out=0.0, enfasis=False):
+    """Ken Burns: zoom lento sobre una foto fija hasta cubrir `target` seg (nitido).
+    Opcional: `fade_out` (fundido a negro al final) para suavizar la entrada de un mes."""
     src = clip_path(nombre)
     crf, preset = crf_preset(borrador)
     frames = max(1, int(round(target * FPS)))
-    # sobre-escala para dar margen al zoom y evitar tembleque
+    zmax = 1.20 if enfasis else 1.14   # un poco mas de zoom si es la toma de enfasis
+    fade = ""
+    if fade_out and fade_out > 0.05:
+        fade = f",fade=t=out:st={max(0, target-fade_out):.3f}:d={fade_out:.3f}"
     vf = (
         f"scale=-2:{H*2}:flags=lanczos,crop={W*2}:{H*2},"
-        f"zoompan=z='min(1+0.0008*on,1.14)':d={frames}:"
+        f"zoompan=z='min(1+0.0008*on,{zmax})':d={frames}:"
         f"x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':s={W}x{H}:fps={FPS},"
-        f"format=yuv420p"
+        f"format=yuv420p{fade}"
     )
     run(["ffmpeg", "-y", "-loop", "1", "-i", src, "-t", f"{target:.3f}",
          "-vf", vf, "-an", "-c:v", "libx264", "-crf", crf, "-preset", preset,
@@ -92,23 +96,37 @@ def crf_preset(borrador):
 
 # ---------------------------------------------------------------- primitivos
 
-def normaliza_clip(nombre, salida, W, H, FPS, target, borrador):
-    """Escala a WxH y ajusta el clip a `target` segundos: recorta o ralentiza."""
+def _enfasis_suffix(target, fade_out, enfasis, W, H):
+    """Filtros extra para el clip previo a un mes: leve zoom de enfasis + fundido a negro."""
+    extra = ""
+    if enfasis:
+        # acercamiento lento (push-in) de ~4% para dar enfasis antes de cortar
+        z = 1.0 + 0.05 * (1.0)  # objetivo ~1.05 al final
+        extra += (f",scale=w=trunc(iw*1.06/2)*2:h=trunc(ih*1.06/2)*2,"
+                  f"crop={W}:{H}")
+    if fade_out and fade_out > 0.05:
+        extra += f",fade=t=out:st={max(0, target-fade_out):.3f}:d={fade_out:.3f}"
+    return extra
+
+
+def normaliza_clip(nombre, salida, W, H, FPS, target, borrador, fade_out=0.0, enfasis=False):
+    """Escala a WxH y ajusta el clip a `target` segundos: recorta o ralentiza.
+    Opcional: `fade_out` (fundido a negro al final) y `enfasis` (leve zoom) para
+    suavizar la entrada de un mes."""
     src = clip_path(nombre)
     usable = CLEAN_MAX
     crf, preset = crf_preset(borrador)
     escala = (f"scale={W}:{H}:force_original_aspect_ratio=increase:flags=lanczos,"
               f"crop={W}:{H}")
+    extra = _enfasis_suffix(target, fade_out, enfasis, W, H)
     if target <= usable:
-        # recorte simple desde el inicio
-        vf = f"{escala},fps={FPS},format=yuv420p"
+        vf = f"{escala}{extra},fps={FPS},format=yuv420p"
         run(["ffmpeg", "-y", "-i", src, "-t", f"{target:.3f}",
              "-vf", vf, "-an", "-c:v", "libx264", "-crf", crf, "-preset", preset,
              "-pix_fmt", "yuv420p", salida])
     else:
-        # ralenti: tomar `usable` seg limpios y estirarlos a `target`
         factor = target / usable
-        vf = (f"trim=0:{usable:.3f},{escala},setpts={factor:.4f}*PTS,"
+        vf = (f"trim=0:{usable:.3f},{escala},setpts={factor:.4f}*PTS{extra},"
               f"fps={FPS},format=yuv420p")
         run(["ffmpeg", "-y", "-i", src,
              "-vf", vf, "-an", "-t", f"{target:.3f}",
@@ -128,8 +146,11 @@ def tarjeta(texto, salida, W, H, FPS, dur, fuente, fondo, color, borrador):
     fondo = fondo.replace("#", "0x")
     tam = int(H * 0.055)
     txt = texto.replace(":", "\\:").replace("'", "")
+    # el texto entra y sale con un fundido suave (no golpe seco)
+    fi, fo = 0.4, 0.4
+    a = f"'if(lt(t,{fi}),t/{fi},if(gt(t,{dur-fo:.2f}),max(0,({dur}-t)/{fo}),1))'"
     draw = (f"drawtext=fontfile='{fuente}':text='{txt}':fontcolor={color}:"
-            f"fontsize={tam}:x=(w-text_w)/2:y=(h-text_h)/2")
+            f"fontsize={tam}:x=(w-text_w)/2:y=(h-text_h)/2:alpha={a}")
     crf, preset = crf_preset(borrador)
     run(["ffmpeg", "-y", "-f", "lavfi",
          "-i", f"color=c={fondo}:s={W}x{H}:r={FPS}:d={dur:.3f}",
@@ -230,12 +251,16 @@ def construir(conf, borrador, reuso=False):
             pins_bloque = [(pn["en"] - vc, pn["clip"]) for pn in conf.get("pins", [])
                            if vc - 0.01 <= pn["en"] < item["hasta_seg"] - 0.01]
             shots = shots_bloque(ventana, item["clips"], pins_bloque, pin_dur)
-            for c, d in shots:
+            # la ultima toma antes de un mes lleva fundido a negro + enfasis (menos brusco)
+            pre_card = item["id"] != "b_mes_12"
+            for si, (c, d) in enumerate(shots):
+                ult = pre_card and si == len(shots) - 1
+                fout = min(0.5, d * 0.4) if ult else 0.0
                 out = os.path.join(BUILD, f"s{idx:03d}_{c or 'negro'}.mp4")
                 if c and existe(c) and es_foto(c):
-                    anima_foto(c, out, W, H, FPS, d, borrador)
+                    anima_foto(c, out, W, H, FPS, d, borrador, fade_out=fout, enfasis=ult)
                 elif c and existe(c):
-                    normaliza_clip(c, out, W, H, FPS, d, borrador)
+                    normaliza_clip(c, out, W, H, FPS, d, borrador, fade_out=fout, enfasis=ult)
                 elif reuso and pool:
                     if c:
                         faltantes.append(c)
