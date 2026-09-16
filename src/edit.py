@@ -26,7 +26,12 @@ GUION = os.path.join(RAIZ, "guion.json")
 BUILD = os.path.join(RAIZ, "build")
 OUTPUT = os.path.join(RAIZ, "output")
 CLIPS = os.path.join(RAIZ, "assets", "videos")
+FOTOS = os.path.join(RAIZ, "assets", "fotos")
 CLEAN_MAX = 4.2  # segundos utiles por clip antes de que se degrade la animacion
+
+
+def es_foto(nombre):
+    return str(nombre).startswith("foto_")
 
 
 def run(cmd):
@@ -44,11 +49,30 @@ def cfg():
 
 
 def clip_path(n):
+    if es_foto(n):
+        return os.path.join(FOTOS, n + ".jpg")
     return os.path.join(CLIPS, n + ".mp4")
 
 
 def existe(n):
     return not str(n).startswith("PENDIENTE") and os.path.exists(clip_path(n))
+
+
+def anima_foto(nombre, salida, W, H, FPS, target, borrador):
+    """Ken Burns: zoom lento sobre una foto fija hasta cubrir `target` seg (nitido)."""
+    src = clip_path(nombre)
+    crf, preset = crf_preset(borrador)
+    frames = max(1, int(round(target * FPS)))
+    # sobre-escala para dar margen al zoom y evitar tembleque
+    vf = (
+        f"scale=-2:{H*2}:flags=lanczos,crop={W*2}:{H*2},"
+        f"zoompan=z='min(1+0.0008*on,1.14)':d={frames}:"
+        f"x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':s={W}x{H}:fps={FPS},"
+        f"format=yuv420p"
+    )
+    run(["ffmpeg", "-y", "-loop", "1", "-i", src, "-t", f"{target:.3f}",
+         "-vf", vf, "-an", "-c:v", "libx264", "-crf", crf, "-preset", preset,
+         "-pix_fmt", "yuv420p", salida])
 
 
 def crf_preset(borrador):
@@ -159,7 +183,9 @@ def construir(conf, borrador, reuso=False):
             share = ventana / n
             for c in clips:
                 out = os.path.join(BUILD, f"s{idx:03d}_{c}.mp4")
-                if existe(c):
+                if existe(c) and es_foto(c):
+                    anima_foto(c, out, W, H, FPS, share, borrador)
+                elif existe(c):
                     normaliza_clip(c, out, W, H, FPS, share, borrador)
                 elif reuso and pool:
                     faltantes.append(c)

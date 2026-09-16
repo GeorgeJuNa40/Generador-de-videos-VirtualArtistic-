@@ -27,35 +27,35 @@
     "musica_nivel_db": -20.0,
     "musica_rango_db": [-22.0, -18.0],
     "regiones": [
-      { "desde_seg": 0.0,   "hasta_seg": 121.0, "fuente": "base",     "nota": "Musica base suave durante casi todo el video." },
-      { "desde_seg": 121.0, "hasta_seg": 138.0, "fuente": "climax",   "nota": "Entra la pista de tension construyendo hacia el clima (bloque Mes 11)." },
-      { "desde_seg": 138.0, "hasta_seg": 151.0, "fuente": "silencio", "nota": "SILENCIO TOTAL de musica. El punto mas importante del video (~13s)." },
-      { "desde_seg": 151.0, "hasta_seg": 177.0, "fuente": "base",     "nota": "Regresa la musica base hasta el cierre." }
+      { "desde_seg": 0.0,   "hasta_seg": 130.0, "fuente": "base",     "nota": "Musica base suave durante casi todo el video." },
+      { "desde_seg": 130.0, "hasta_seg": 146.0, "fuente": "climax",   "nota": "Entra la tension construyendo hacia el clima (bloque Mes 11)." },
+      { "desde_seg": 146.0, "hasta_seg": 160.0, "fuente": "silencio", "nota": "SILENCIO TOTAL (~14s): '¿Cuánto llevas invertido?' + 'Tu hija te pregunta...'. Punto clave." },
+      { "desde_seg": 160.0, "hasta_seg": 177.4, "fuente": "base",     "nota": "Regresa la musica base hasta el cierre." }
     ]
   },
-  "estructura_provisional_nota": "Meses alineados a las pausas reales de la voz (guion_voz.json). PROVISIONAL: se afina con el texto del guion. Cada bloque cubre su ventana con sus clips (ralentizados si hace falta).",
+  "estructura_provisional_nota": "Meses clavados a las frases del texto (src/mapear_meses.py) y ajustados a pausas reales. 21 fuentes: 15 clips + 6 fotos animadas (Ken Burns). Asignacion por bloque afinable por contenido.",
   "timeline": [
     { "tipo": "negro",   "id": "intro_negro", "hasta_seg": 11.0, "nota": "Pantalla negra + solo voz. INTENCIONAL." },
 
-    { "tipo": "bloque",  "id": "apertura",  "hasta_seg": 27.16, "clips": ["clip_01", "clip_02", "clip_03"] },
+    { "tipo": "bloque",  "id": "apertura",  "hasta_seg": 27.6, "clips": ["foto_01", "clip_01"], "nota": "Te despiertas... el millon intacto." },
 
     { "tipo": "tarjeta", "id": "mes_01", "texto": "Mes 1",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_01", "hasta_seg": 52.04, "clips": ["clip_04", "clip_05", "clip_06"] },
+    { "tipo": "bloque",  "id": "b_mes_01", "hasta_seg": 56.4, "clips": ["clip_02", "clip_03", "clip_04", "foto_04"], "nota": "Primera agencia, 80 mil, primer reporte, mismas ventas." },
 
     { "tipo": "tarjeta", "id": "mes_03", "texto": "Mes 3",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_03", "hasta_seg": 76.46, "clips": ["clip_07", "clip_08", "clip_09"] },
+    { "tipo": "bloque",  "id": "b_mes_03", "hasta_seg": 84.3, "clips": ["clip_05", "clip_06", "clip_07", "foto_05"], "nota": "Pauta 150 mil, mensajes en visto, nadie contesta." },
 
     { "tipo": "tarjeta", "id": "mes_05", "texto": "Mes 5",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_05", "hasta_seg": 107.99, "clips": ["clip_10", "clip_11", "PENDIENTE_12"] },
+    { "tipo": "bloque",  "id": "b_mes_05", "hasta_seg": 114.7, "clips": ["clip_08", "clip_09", "clip_10", "foto_02"], "nota": "Contrata interno 200 mil, entrega excusas, enemigo invisible." },
 
     { "tipo": "tarjeta", "id": "mes_08", "texto": "Mes 8",  "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_08", "hasta_seg": 121.34, "clips": ["PENDIENTE_13", "PENDIENTE_14", "PENDIENTE_15"] },
+    { "tipo": "bloque",  "id": "b_mes_08", "hasta_seg": 144.5, "clips": ["clip_11", "clip_12", "foto_06"], "nota": "El competidor peor pero en todos lados; compra por panico." },
 
-    { "tipo": "tarjeta", "id": "mes_11", "texto": "Mes 11", "duracion_seg": 2.0, "nota": "Dura 2 segundos." },
-    { "tipo": "bloque",  "id": "b_mes_11", "hasta_seg": 151.49, "clips": ["PENDIENTE_16", "PENDIENTE_17", "PENDIENTE_18"], "nota": "Incluye el monologo climax (21s) y el silencio total de musica." },
+    { "tipo": "tarjeta", "id": "mes_11", "texto": "Mes 11", "duracion_seg": 2.0, "nota": "2 segundos. Clima emocional + silencio de musica." },
+    { "tipo": "bloque",  "id": "b_mes_11", "hasta_seg": 164.1, "clips": ["clip_13", "foto_03"], "nota": "¿Cuanto llevas invertido? Tu hija te pregunta. SILENCIO." },
 
     { "tipo": "tarjeta", "id": "mes_12", "texto": "Mes 12", "duracion_seg": 1.0 },
-    { "tipo": "bloque",  "id": "b_mes_12", "hasta_seg": 177.32, "clips": ["PENDIENTE_19", "PENDIENTE_20", "PENDIENTE_21"] },
+    { "tipo": "bloque",  "id": "b_mes_12", "hasta_seg": 177.32, "clips": ["clip_14", "clip_15"], "nota": "Marca cero. Vacio enorme y silencioso." },
 
     { "tipo": "fundido_negro", "id": "fade_final", "en_seg": 176.1, "duracion_seg": 1.2, "nota": "Fundido a negro justo al terminar la narracion (177s)." },
     { "tipo": "cierre", "id": "cierre", "texto_final": "TEXTO FINAL PENDIENTE", "logo": "assets/logo/logo.png", "negro_texto_seg": 4.0, "negro_logo_seg": 3.0, "negro_final_seg": 1.5 }
