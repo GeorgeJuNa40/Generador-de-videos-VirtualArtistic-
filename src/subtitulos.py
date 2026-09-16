@@ -126,6 +126,7 @@ def main():
     lineas, bordes = fl, fb
 
     # desplazar al tiempo ENSAMBLADO (sumar pausas de meses previas) con schedule.json
+    card_intervalos = []   # intervalos (en tiempo ensamblado) donde se ve la tarjeta de mes
     sp = os.path.join(RAIZ, "build", "schedule.json")
     if os.path.exists(sp):
         sched = json.load(open(sp))
@@ -138,6 +139,21 @@ def main():
         def shift(v):
             return v + sum(d for vb, d in cards if v >= vb - 0.05)
         bordes = [shift(b) for b in bordes]
+        # intervalos ensamblados de cada tarjeta (para que NO haya subtitulo encima)
+        t = 0.0
+        for seg in sched["orden"]:
+            if seg["tipo"] == "card":
+                card_intervalos.append((t, t + seg["dur"]))
+            t += seg["dur"]
+
+    # recortar cualquier subtitulo para que no se muestre durante la tarjeta del mes
+    def limpio_de_cards(s, e):
+        for cs, ce in card_intervalos:
+            if s < cs and e > cs:      # cruza el inicio del mes -> termina antes
+                e = cs
+            if cs <= s < ce:           # empieza dentro del mes -> arranca despues
+                s = ce
+        return s, e
 
     cab = """[Script Info]
 ScriptType: v4.00+
@@ -153,11 +169,15 @@ Style: Sub,Liberation Sans,52,&H00FFFFFF,&H00000000,&H96000000,-1,0,1,3,2,2,80,8
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
+    n = 0
     with open(ASS, "w", encoding="utf-8") as f:
         f.write(cab)
         for i, l in enumerate(lineas):
-            f.write(f"Dialogue: 0,{ts(bordes[i])},{ts(bordes[i+1])},Sub,,0,0,0,,{l}\n")
-    print(f"Voz {T:.1f}s | {len(runs)} tramos habla | {len(lineas)} lineas -> {ASS}")
+            s, e = limpio_de_cards(bordes[i], bordes[i+1])
+            if e - s < 0.3:   # quedo demasiado corto tras recortar -> se omite
+                continue
+            f.write(f"Dialogue: 0,{ts(s)},{ts(e)},Sub,,0,0,0,,{l}\n"); n += 1
+    print(f"Voz {T:.1f}s | {len(runs)} tramos habla | {n} subtitulos -> {ASS}")
 
 
 if __name__ == "__main__":
