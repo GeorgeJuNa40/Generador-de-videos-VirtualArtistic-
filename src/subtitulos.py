@@ -150,7 +150,7 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, OutlineColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Sub,Liberation Sans,52,&H00FFFFFF,&H00000000,&H96000000,-1,0,1,3,2,2,80,80,300,1
+Style: Sub,Liberation Sans,52,&H00FFFFFF,&H00000000,&H96000000,-1,0,1,3,2,2,80,80,700,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

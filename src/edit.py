@@ -348,16 +348,20 @@ def cierre(item, conf, borrador, idx):
              "-c:v", "libx264", "-crf", crf, "-preset", "veryfast",
              "-pix_fmt", "yuv420p", out2])
     else:
-        icono = os.path.join(RAIZ, item.get("logo_icono", "assets/logo/icono.png"))
+        # icono ya recoloreado (petalos blancos + naranja) con transparencia,
+        # se compone sobre NEGRO para que el cierre no salte a un recuadro blanco.
+        icono = os.path.join(RAIZ, item.get("logo_icono", "assets/logo/icono_dark.png"))
         nombre = item.get("logo_nombre", "").replace("'", "")
         tagline = item.get("logo_tagline", "").replace("&", "\\&").replace("'", "")
+        fin, fout = 0.5, 0.5
         fc = (
-            f"[1:v]scale=440:-1[ic];"
-            f"[0:v][ic]overlay=(W-w)/2:(H-h)/2-140[b];"
+            f"[1:v]format=rgba,scale=460:-1[ic];"
+            f"[0:v][ic]overlay=(W-w)/2:(H-h)/2-150:format=auto[b];"
             f"[b]drawtext=fontfile='{marca}':text='{nombre}':fontcolor=white:fontsize=76:"
             f"x=(w-text_w)/2:y=h/2+120[b2];"
             f"[b2]drawtext=fontfile='{fuente}':text='{tagline}':fontcolor=0xB0B0B0:fontsize=34:"
-            f"x=(w-text_w)/2:y=h/2+210,fade=t=in:st=0:d=0.7,fade=t=out:st={dur2-0.6:.2f}:d=0.6,format=yuv420p"
+            f"x=(w-text_w)/2:y=h/2+210,fade=t=in:st=0:d={fin},"
+            f"fade=t=out:st={dur2-fout:.2f}:d={fout},format=yuv420p"
         )
         run(["ffmpeg", "-y", "-f", "lavfi",
              "-i", f"color=c=black:s={W}x{H}:r={FPS}:d={dur2:.3f}",
@@ -433,11 +437,16 @@ def main():
             import subtitulos
             subtitulos.main()
             ass = os.path.join(BUILD, "subtitulos.ass").replace(":", "\\:")
-            crf, preset = crf_preset(args.borrador)
+            if args.borrador:
+                venc = ["-c:v", "libx264", "-crf", "26", "-preset", "veryfast"]
+            else:
+                # export final de alta tasa (1080x1920): Instagram recomprime, asi
+                # que entregamos ~9 Mbps para que no se vea lavado.
+                venc = ["-c:v", "libx264", "-b:v", "9M", "-maxrate", "11M",
+                        "-bufsize", "18M", "-preset", "slow"]
             run(["ffmpeg", "-y", "-i", con_audio,
                  "-vf", f"subtitles='{ass}'",
-                 "-c:v", "libx264", "-crf", crf, "-preset", preset,
-                 "-pix_fmt", "yuv420p", "-c:a", "copy", destino])
+                 *venc, "-pix_fmt", "yuv420p", "-c:a", "copy", destino])
 
     # Ajuste opcional a una duracion maxima (p.ej. limite de 3 min de Instagram).
     # Comprime video y audio por igual, conservando la sincronia.

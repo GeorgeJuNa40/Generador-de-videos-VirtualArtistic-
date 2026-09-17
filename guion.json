@@ -86,7 +86,7 @@
       "tipo": "tarjeta",
       "id": "mes_01",
       "texto": "Mes 1",
-      "duracion_seg": 2.0,
+      "duracion_seg": 1.0,
       "silencio_total": true,
       "sfx": "assets/sfx/mes_final.wav"
     },
@@ -101,7 +101,7 @@
       "tipo": "tarjeta",
       "id": "mes_03",
       "texto": "Mes 3",
-      "duracion_seg": 2.0,
+      "duracion_seg": 1.0,
       "silencio_total": true,
       "sfx": "assets/sfx/mes_final.wav"
     },
@@ -116,7 +116,7 @@
       "tipo": "tarjeta",
       "id": "mes_05",
       "texto": "Mes 5",
-      "duracion_seg": 2.0,
+      "duracion_seg": 1.0,
       "silencio_total": true,
       "sfx": "assets/sfx/mes_final.wav"
     },
@@ -131,7 +131,7 @@
       "tipo": "tarjeta",
       "id": "mes_08",
       "texto": "Mes 8",
-      "duracion_seg": 2.0,
+      "duracion_seg": 1.0,
       "silencio_total": true,
       "sfx": "assets/sfx/mes_final.wav"
     },
@@ -162,7 +162,7 @@
       "tipo": "tarjeta",
       "id": "mes_12",
       "texto": "Mes 12",
-      "duracion_seg": 2.0,
+      "duracion_seg": 1.0,
       "silencio_total": true,
       "sfx": "assets/sfx/mes_final.wav"
     },
@@ -184,19 +184,14 @@
     {
       "tipo": "cierre",
       "id": "cierre",
-      "logo_icono": "assets/logo/icono.png",
+      "logo_icono": "assets/logo/icono_dark.png",
       "logo_nombre": "VirtualArtistic",
       "logo_tagline": "Digital Transformation & Growth",
-      "negro_texto_seg": 3.5,
-      "negro_logo_seg": 3.6,
+      "negro_logo_seg": 2.0,
       "negro_final_seg": 1.0,
       "beat1_1": "Hay otra versión de la historia",
       "beat1_2": "donde el mes 12 no termina así.",
-      "negro_beat1_seg": 4.0,
-      "beat2_1": "El tiempo no se recupera.",
-      "beat2_2": "Tu crecimiento, sí.",
-      "negro_beat2_seg": 3.6,
-      "logo_imagen": "assets/logo/logo_original.jpg"
+      "negro_beat1_seg": 3.0
     }
   ],
   "pins": [
