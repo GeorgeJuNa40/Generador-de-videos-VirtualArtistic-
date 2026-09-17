@@ -136,25 +136,45 @@ def construir_musica(conf, sched, bd, total):
     return concat_wav(bd, piezas, os.path.join(bd, "mus_cuerpo.wav"))
 
 
-def construir_sfx(conf, sched, bd):
-    """Pista de SFX: impacto en cada tarjeta, silencio en el resto."""
+def construir_sfx(conf, sched, bd, total):
+    """Pista de SFX del cuerpo: cada sonido de mes se coloca con ADELANTO (lead)
+    para que su golpe caiga justo en la entrada de la tarjeta (el 'build' suena
+    sobre el oscurecimiento del clip previo)."""
     a = conf["audio"]
-    nivel = a.get("sfx_nivel_db", -6.0)
-    piezas = []
-    for i, seg in enumerate(sched["orden"]):
-        d = seg["dur"]
+    boost = a.get("sfx_boost_db", -3.0)
+    lead = a.get("sfx_lead_seg", 1.5)
+    # posiciones (tiempo ensamblado) de cada tarjeta con sfx
+    starts, t = [], 0.0
+    src = None
+    for seg in sched["orden"]:
         if seg["tipo"] == "card" and seg.get("sfx"):
-            src = os.path.join(RAIZ, seg["sfx"])
-            out = os.path.join(bd, f"a_sfx_{i:03d}.wav")
-            boost = conf["audio"].get("sfx_boost_db", 2.0)
-            # el sfx ya es fuerte; leve realce + limitador. Entra de inmediato (t=0).
-            run(["ffmpeg", "-y", "-i", src, "-t", f"{d:.3f}",
-                 "-af", f"volume={boost}dB,alimiter=limit=0.97,apad,atrim=0:{d:.3f}",
-                 "-ar", "48000", "-ac", "2", out])
-            piezas.append(out)
-        else:
-            piezas.append(silencio(bd, 2000 + i, d))
-    return concat_wav(bd, piezas, os.path.join(bd, "sfx_cuerpo.wav"))
+            starts.append(max(0.0, t - lead)); src = os.path.join(RAIZ, seg["sfx"])
+        t += seg["dur"]
+    out = os.path.join(bd, "sfx_cuerpo.wav")
+    if not starts or not src:
+        return silencio(bd, 9000, total) if False else _sfx_silencio(bd, total, out)
+    # base de silencio + cada sfx retrasado (adelay) y mezclado
+    cmd = ["ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo"]
+    for _ in starts:
+        cmd += ["-i", src]
+    fil = [f"[0:a]atrim=0:{total:.3f},asetpts=PTS-STARTPTS[base]"]
+    labels = ["[base]"]
+    for i, st in enumerate(starts, start=1):
+        ms = int(round(st * 1000))
+        fil.append(f"[{i}:a]volume={boost}dB,adelay={ms}|{ms}[s{i}]")
+        labels.append(f"[s{i}]")
+    fil.append("".join(labels) + f"amix=inputs={len(labels)}:normalize=0:duration=first,"
+               f"atrim=0:{total:.3f}[out]")
+    cmd += ["-filter_complex", ";".join(fil), "-map", "[out]", "-t", f"{total:.3f}",
+            "-ar", "48000", "-ac", "2", out]
+    run(cmd)
+    return out
+
+
+def _sfx_silencio(bd, total, out):
+    run(["ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
+         "-t", f"{total:.3f}", "-ar", "48000", "-ac", "2", out])
+    return out
 
 
 def mezclar(conf, video_sin_audio, salida, build_dir):
@@ -164,7 +184,7 @@ def mezclar(conf, video_sin_audio, salida, build_dir):
 
     voz = construir_voz(conf, sched, build_dir)
     mus = construir_musica(conf, sched, build_dir, total_cuerpo)
-    sfx = construir_sfx(conf, sched, build_dir)
+    sfx = construir_sfx(conf, sched, build_dir, total_cuerpo)
 
     voz_gan = conf["audio"].get("voz_nivel_db", -2.0)
     # voz dominante (loudnorm) + musica + sfx; todo rellenado hasta la duracion del video
