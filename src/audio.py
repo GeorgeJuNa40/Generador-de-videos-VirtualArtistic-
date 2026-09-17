@@ -138,8 +138,12 @@ def construir_musica(conf, sched, bd, total):
 
 def construir_sfx(conf, sched, bd, total):
     """Pista de SFX del cuerpo: cada sonido de mes se coloca con ADELANTO (lead)
-    para que su golpe caiga justo en la entrada de la tarjeta (el 'build' suena
-    sobre el oscurecimiento del clip previo)."""
+    para que su golpe caiga justo en la entrada de la tarjeta.
+
+    Se construye por CONCATENACION (silencio + golpe + silencio ...), igual que
+    la voz. Es determinista y preserva el ataque del golpe; se evita amix con
+    clips cortos, que en algunos entornos deforma el transitorio (lo convierte
+    en un 'crecimiento' en vez de un impacto seco)."""
     a = conf["audio"]
     boost = a.get("sfx_boost_db", -3.0)
     lead = a.get("sfx_lead_seg", 1.5)
@@ -152,22 +156,21 @@ def construir_sfx(conf, sched, bd, total):
         t += seg["dur"]
     out = os.path.join(bd, "sfx_cuerpo.wav")
     if not starts or not src:
-        return silencio(bd, 9000, total) if False else _sfx_silencio(bd, total, out)
-    # base de silencio + cada sfx retrasado (adelay) y mezclado
-    cmd = ["ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo"]
-    for _ in starts:
-        cmd += ["-i", src]
-    fil = [f"[0:a]atrim=0:{total:.3f},asetpts=PTS-STARTPTS[base]"]
-    labels = ["[base]"]
-    for i, st in enumerate(starts, start=1):
-        ms = int(round(st * 1000))
-        fil.append(f"[{i}:a]volume={boost}dB,adelay={ms}|{ms}[s{i}]")
-        labels.append(f"[s{i}]")
-    fil.append("".join(labels) + f"amix=inputs={len(labels)}:normalize=0:duration=first,"
-               f"atrim=0:{total:.3f}[out]")
-    cmd += ["-filter_complex", ";".join(fil), "-map", "[out]", "-t", f"{total:.3f}",
-            "-ar", "48000", "-ac", "2", out]
-    run(cmd)
+        return _sfx_silencio(bd, total, out)
+    # golpe con la ganancia ya aplicada (una sola vez)
+    boom = os.path.join(bd, "sfx_boom.wav")
+    run(["ffmpeg", "-y", "-i", src, "-af", f"volume={boost}dB",
+         "-ar", "48000", "-ac", "2", boom])
+    bdur = dur(boom)
+    piezas, cur = [], 0.0
+    for i, st in enumerate(starts):
+        if st > cur + 0.001:                      # silencio hasta el golpe
+            piezas.append(silencio(bd, 8000 + i, st - cur))
+        piezas.append(boom)                       # el golpe (ataque intacto)
+        cur = st + bdur
+    if total - cur > 0.001:                       # cola de silencio final
+        piezas.append(silencio(bd, 8999, total - cur))
+    concat_wav(bd, piezas, out)
     return out
 
 

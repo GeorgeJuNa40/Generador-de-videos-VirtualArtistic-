@@ -59,13 +59,13 @@
     "silencio_en_cards": true,
     "sfx_nivel_db": -6.0,
     "musica_fade_pre_card_seg": 1.2,
-    "sfx_boost_db": 6.5,
+    "sfx_boost_db": -1.0,
     "musica_combinar": [
       "assets/musica/opcion3_itfollowsyou.mp3",
       "assets/musica/opcion2_cinematic.mp3"
     ],
     "musica_tension": "assets/musica/opcion1_tension.mp3",
-    "sfx_lead_seg": 1.0
+    "sfx_lead_seg": 0.05
   },
   "estructura_provisional_nota": "Meses clavados a las frases del texto (src/mapear_meses.py) y ajustados a pausas reales. 21 fuentes: 15 clips + 6 fotos animadas (Ken Burns). Asignacion por bloque afinable por contenido.",
   "timeline": [
