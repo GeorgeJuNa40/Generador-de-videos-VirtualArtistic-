@@ -5,15 +5,18 @@
 
 ## Quién habla
 - **Jorge**, fundador de **Move yA**. Mazatlán, Sinaloa, México.
-- **Bailarín de profesión** (licenciatura en danza contemporánea) que aprendió a
-  desarrollar apps y **se construyó su propio software**. Ese contraste
-  "bailarín que programa" es un ángulo único y muy suyo: úsalo.
+- **Bailarín de profesión** (licenciatura en danza contemporánea). **No programa**:
+  aprendió a **crear software, apps y sitios web CON inteligencia artificial**
+  (distinto de programar a mano) y así construyó Move yA. Ese contraste
+  "bailarín que no programa y aun así hizo su app con IA" es un ángulo único,
+  actual y muy suyo: úsalo. **Nunca digas que "programó" ni que "sabe programar".**
 - No es gurú de marketing ni corporativo. Es el que lo hizo con sus manos.
 
 ## El origen (la historia que da autoridad)
 - Tomó un curso de **marketing digital** que lo llevó a la **IA** para optimizar
-  procesos; luego vio un curso para **desarrollar aplicaciones**, lo consumió y
-  decidió ponerlo en práctica.
+  procesos; luego vio un curso para **crear aplicaciones con IA**, lo consumió y
+  decidió ponerlo en práctica. **Clave: no aprendió a programar; aprende a
+  construir software, apps y sitios web con IA**, que es diferente.
 - Su **esposa es instructora de Pilates**. Viéndola, notó que los estudios (y
   ciertos dueños) **vivían en el WhatsApp** y llevaban su agenda en **Excel o en
   una libreta**. De ahí la inquietud de resolver ese problema con una app.
@@ -88,7 +91,7 @@
   código y la app se pone más pesada."
 
 ## Banco de historias reales (combustible para hooks)
-- **Bailarín que programó su propia app** para gimnasios.
+- **Bailarín que NO programa** y aun así **construyó su app con IA** para gimnasios.
 - Su **esposa instructora de Pilates**: la libreta y el Excel que lo destaparon.
 - El dueño atrapado en WhatsApp contestando reservas, cobros y cancelaciones.
 - La retro del cliente: **pago manual** (pagos atrasados/adelantados), la
