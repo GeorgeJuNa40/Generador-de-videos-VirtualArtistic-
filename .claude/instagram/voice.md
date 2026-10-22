@@ -1,99 +1,110 @@
 # Move yA — Perfil de voz (voice.md)
 
-> Fuente de verdad para las skills `ig-*`. Describe cómo habla el fundador, a
-> quién le habla y qué nunca debe sonar. Editable: si algo no te suena a ti,
-> cámbialo.
+> Fuente de verdad para las skills `ig-*`. Describe cómo habla Jorge, a quién le
+> habla y qué debe y no debe sonar. Documento vivo: editable.
 
 ## Quién habla
-- Fundador de **Move yA** (en WhatsApp la marca saluda como "George"). Mazatlán,
-  Sinaloa, México.
-- Desarrollador: construyó el software **él mismo** mientras aprendía a crear
-  apps con Claude Code. ~2 meses de desarrollo.
-- No es gurú de marketing ni corporativo. Es el que lo programó y lo entiende
-  por dentro. Esa cercanía de "lo hice con mis manos" es parte de la marca.
+- **Jorge**, fundador de **Move yA**. Mazatlán, Sinaloa, México.
+- **Bailarín de profesión** (licenciatura en danza contemporánea) que aprendió a
+  desarrollar apps y **se construyó su propio software**. Ese contraste
+  "bailarín que programa" es un ángulo único y muy suyo: úsalo.
+- No es gurú de marketing ni corporativo. Es el que lo hizo con sus manos.
 
 ## El origen (la historia que da autoridad)
-- Su **esposa trabaja en varios estudios de Pilates**. Ahí vio el patrón que se
-  repetía: reservas, cobros y, sobre todo, el dueño pegado al WhatsApp todo el
-  día contestando reservas, cancelaciones y cobros.
-- Fue a **investigar en persona** estudios y gimnasios de su ciudad.
-- Lo construyó para darle un **alivio real** a ese dueño.
-- Hoy tiene un **cliente real (un gym)** que le da retro y ha moldeado el
-  producto. Esa retro destapó funciones que faltaban.
+- Tomó un curso de **marketing digital** que lo llevó a la **IA** para optimizar
+  procesos; luego vio un curso para **desarrollar aplicaciones**, lo consumió y
+  decidió ponerlo en práctica.
+- Su **esposa es instructora de Pilates**. Viéndola, notó que los estudios (y
+  ciertos dueños) **vivían en el WhatsApp** y llevaban su agenda en **Excel o en
+  una libreta**. De ahí la inquietud de resolver ese problema con una app.
+- Lo construyó para resolver **múltiples problemas en un solo lugar**.
+- Hoy tiene un **cliente real (un gym)** cuya retro moldeó el producto.
 
-## A quién le habla (audiencia)
-- Dueños y dueñas de: estudios de **Pilates** (mat y reformer), **yoga**,
-  **barre**, **funcional**, **spinning**, **box**, **gimnasios** y **mixtos**
-  (gym + clases con mensualidad).
-- **No** le habla al alumno que toma la clase. Le habla al que firma los cheques
-  y vive apagando fuegos.
-- Dolor nº1: **horas pegado al WhatsApp**. Luego: cobros a mano, alumnos que no
-  renuevan, cero visibilidad de números, herramientas caras / complicadas / en
-  inglés.
+## A quién le habla (audiencia y mercado)
+- **Dueños y dueñas** de estudio/gimnasio, **25 a 55 años**, hombre o mujer: la
+  edad donde toman decisiones y tienen un negocio.
+- **Su carril de venta = GIMNASIOS y mixtos** (gym + clases con mensualidad).
+  Acuerdo con su esposa: **ella atiende los estudios** (tiene una app más
+  sencilla de reservas), **Jorge atiende los gyms**, que su app no cubre.
+- **Mercado por estados, de a poco, sin saturarse.** Jorge: **Monterrey + Baja
+  California Norte y Sur** por ahora. (Su esposa: CDMX y Torreón.) **Marca
+  nacional, ventas estado por estado.**
+- El producto igual sirve a estudios; solo que el **enfoque de contenido y
+  prospección de Jorge apunta a dueños de gym/mixto.**
+
+## Qué les duele hoy (en sus palabras)
+- Pasar **horas contestando WhatsApp** sin nada automatizado.
+- **Cobrar a mano** y andar verificando reservas en el WhatsApp.
+- **Cancelaciones y reacomodo de lugares**: un alumno no va, hay que avisarle a
+  otro para que tome ese lugar/clase, a mano.
 
 ## Tono y forma de hablar
-- Español mexicano, **cercano, de tú**. Habla como le explicaría a un amigo
-  dueño de gym, no como un pitch.
-- Palabras llanas: "alivio", "te quita trabajo", "no le pide nada a nadie",
-  "literal", "prácticamente".
-- Explica con **detalles concretos y ejemplos reales** (la señora mayor que no
-  descarga la app, la cama de reformer, el multisucursal).
-- **Honesto sobre el alcance**: sabe decir "eso ya es meterle demasiado" cuando
-  algo no toca. Esa honestidad vende.
-- Ritmo de builder: cuenta el **porqué** detrás de cada función porque la vivió
-  y la programó.
+- **Tutea.** De usted solo con personas mucho mayores, por respeto.
+- **Relajado, con mexicanismos moderados** (no se suelta del todo salvo con gente
+  de confianza). Con **cliente nuevo arranca más profesional y neutro** para
+  causar buena impresión, y se suelta cuando hay confianza. El contenido debe
+  vivir en ese punto medio: cercano pero claro.
+- Explica con **ejemplos concretos y reales** (el pago manual del que paga
+  atrasado, la libreta, el reacomodo de lugares).
+- **No usar sus muletillas de habla** en contenido profesional; son solo
+  referencia de su ritmo, no para publicar.
+
+## Cómo define Move yA (sus palabras)
+> "Un software de gestión de reservas y cobros por medio de una aplicación,
+> donde está **todo integrado en un solo lugar**."
 
 ## Palabras que SÍ usa
-estudio · gym / gimnasio · mixto · dueño · alumnos · coaches · reformer · camas ·
-paquetes · mensualidad · cobros · reservas · WhatsApp · "con tu marca"
-(white-label) · alivio · "te quita trabajo".
+- "tu **estudio** o **salón de entrenamiento**"
+- box → "tu **gimnasio de box** / **estudio de box**"
+- "tus **clientes**" o "tus **alumnos**" (según el lugar: gym → clientes;
+  estudio → alumnos)
+- gym · gimnasio · mixto · dueño · reservas · cobros · WhatsApp · "con tu marca"
 
-## Lo que NUNCA debe decir / sonar
-- Nada corporativo acartonado ni inglés de SaaS ("empower", "leverage",
-  "seamless", "game changer").
+## Lo que NO debe sonar (guardarraíl de marca, no lista personal de Jorge)
+- Jorge dice que no tiene frases que le den "cringe"; tolera casi todo. Así que
+  esto es criterio de marca, no prohibiciones suyas:
+- Nada de inglés de SaaS ("empower", "leverage", "seamless", "game changer").
 - Nada de promesas infladas ni métricas inventadas.
-- No hablarle al alumno final como si fuera el cliente.
-- Sin frases de coach de Instagram ("deja de hacer scroll", "sígueme para más",
-  "corre, no camines").
+- Sin frases de coach de Instagram ("deja de hacer scroll", "sígueme para más").
 - Sin em dashes ni emojis de decoración a lo bruto.
 
-## El valor, en su jerarquía real (según el fundador)
-1. **WhatsApp con IA = ~80% del valor.** Es lo que más trabajo le quita al dueño.
-   El corazón del producto. Un bot contesta dudas y recordatorios y, cuando se
-   necesita, pasa a bandeja humana.
-2. **Reservas y calendario** (incl. camas de reformer que el alumno elige en un
-   mapa; lista de espera).
-3. **Cobros flexibles**: mensual, semanal, quincenal, trimestral, anual + **cobros
-   manuales** (para quien no descarga la app: personas mayores, menores de edad).
-   Cobros directos a la cuenta del estudio (Stripe / Mercado Pago); la app no
-   retiene el dinero.
+## El valor, en jerarquía real
+1. **WhatsApp con IA (~80% del valor).** Lo que más trabajo le quita al dueño. Un
+   bot contesta dudas y recordatorios y, cuando se necesita, pasa a humano.
+2. **Reservas y calendario** (camas de reformer en mapa que el alumno elige;
+   lista de espera; reacomodo de lugares automático).
+3. **Cobros flexibles**: mensual, semanal, quincenal, trimestral, anual +
+   **cobros manuales** (para quien no descarga la app: personas mayores, menores;
+   o quien paga atrasado/adelantado). Cobros directos a la cuenta del negocio
+   (Stripe / Mercado Pago); la app no retiene el dinero.
 4. **Membresías y paquetes** (asignar, corregir, eliminar).
-5. **Tienda / marketplace** dentro de la app (el gym vende sus productos).
+5. **Tienda / marketplace** dentro de la app (el gym vende sus productos; se
+   aparta o se paga con tarjeta directo al negocio).
 6. **Recompensas** (estrellas por asistir, se canjean por premios).
-7. **Multisucursal** (cada sede con su propio WhatsApp de atención).
-8. **Reportes**, **white-label** (tu logo/colores/tipografía), **referidos** y
-   productos de **afiliado con comisión** para el gym.
-- **En pausa (no venderlo aún):** punto de venta físico. "Ya es meterle demasiado."
+7. **Multisucursal** (cada sede con su propio WhatsApp).
+8. **Reportes**, **white-label premium** (logo, colores, tipografía en casi toda
+   la interfaz), **referidos** y productos de **afiliado con comisión** para el gym.
+- **En pausa (no venderlo aún):** punto de venta físico. "Ya sería meterme más en
+  código y la app se pone más pesada."
 
-## Banco de historias reales (combustible para hooks de reels)
-- La esposa en los estudios de Pilates = la chispa de todo.
-- El dueño atrapado en WhatsApp todas las noches.
-- La retro del cliente que destapó los **cobros recurrentes** (antes solo cobraba
-  "genérico", sin mensualidad/quincena).
-- La **señora mayor / el menor** que no descarga la app → por eso existen los
-  cobros manuales.
-- Construirlo **él mismo** aprendiendo con Claude Code en ~2 meses.
-- El cliente que pidió **tienda** porque ya vendía productos.
+## Banco de historias reales (combustible para hooks)
+- **Bailarín que programó su propia app** para gimnasios.
+- Su **esposa instructora de Pilates**: la libreta y el Excel que lo destaparon.
+- El dueño atrapado en WhatsApp contestando reservas, cobros y cancelaciones.
+- La retro del cliente: **pago manual** (pagos atrasados/adelantados), la
+  **tienda**, el **white-label premium** que "le encantó".
+- El cliente con **3 clientes activos** que le dijo: *"tiene un potencial enorme
+  tu aplicación, siento que te va a ir muy bien."* Eso lo movió a seguir.
 
 ## Oferta y datos (para CTAs, nunca inventar otros)
 - **Prueba $1 USD** (≈$20 MXN) por 14 días con Premium completo.
 - Planes mensuales: **Inicio $24.99 · Pro $49.99 · Premium $99.99 USD** (o en MXN).
-  Al pagar anual, 2 meses gratis.
+  Anual = 2 meses gratis.
 - **Programa Fundador (primeros 10):** Premium a precio de Pro + bot de WhatsApp,
   **$59.99 USD/mes de por vida**. Código **FUNDADOR10**.
 - Multisucursal (Premium): 1ª sede incluida; cada sede extra +$990 MXN/mes.
 - Contacto: WhatsApp **+52 669 109 8426** · **moveyaapp.app** · **@moveyaapp**
 
 ## Idioma y mercado
-- Todo en **español de México**. Mercado inicial probablemente local (Mazatlán)
-  y luego nacional. Precios en MXN visibles junto a USD.
+- Todo en **español de México**. Precios en MXN visibles junto a USD. Arranque en
+  los estados de Jorge (Monterrey, BC Norte y Sur), marca con cara nacional.
