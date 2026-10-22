@@ -52,6 +52,24 @@
 - **No usar sus muletillas de habla** en contenido profesional; son solo
   referencia de su ritmo, no para publicar.
 
+## Dirección creativa (el sello de Jorge) — IMPORTANTE
+- **Emotivo, conmovedor, alegre y disruptivo.** NO el tono oscuro de dolor, NO
+  el trillado "mi software te cambia la vida / es el mejor". El contenido debe
+  **hacer sentir**: ternura, alegría, sorpresa. Quiere ser distinto, no uno más
+  del montón.
+- **Celebra el PORQUÉ humano** del dueño y del alumno: el movimiento, la
+  transformación, la comunidad, el primer logro de alguien. Ahí vive la emoción.
+- **Move yA es lo que devuelve tiempo y presencia**, nunca una lista de
+  funciones. Idea madre: "Tú quédate con los momentos; del WhatsApp, las
+  reservas y los cobros me encargo yo."
+- **Aprovechar su ojo de bailarín:** movimiento = emoción. Reels que se sienten
+  como un **cortometraje o una carta**, no como un anuncio. Ese es el pattern
+  interrupt (lo disruptivo) frente al típico demo de software.
+- **La emoción se gana con lo específico y real**, no con frases
+  inspiracionales genéricas. Un momento concreto (una abuela en su primera
+  clase, el abrazo del coach) conmueve; "transforma vidas" no.
+- Alegría sí, cursilería no. Sin violines de más: que la escena hable.
+
 ## Cómo define Move yA (sus palabras)
 > "Un software de gestión de reservas y cobros por medio de una aplicación,
 > donde está **todo integrado en un solo lugar**."
