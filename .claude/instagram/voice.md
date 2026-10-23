@@ -26,14 +26,16 @@
 ## A quién le habla (audiencia y mercado)
 - **Dueños y dueñas** de estudio/gimnasio, **25 a 55 años**, hombre o mujer: la
   edad donde toman decisiones y tienen un negocio.
-- **Su carril de venta = GIMNASIOS y mixtos** (gym + clases con mensualidad).
-  Acuerdo con su esposa: **ella atiende los estudios** (tiene una app más
-  sencilla de reservas), **Jorge atiende los gyms**, que su app no cubre.
+- **Audiencia = dueños de estudios de Pilates/yoga, gimnasios Y mixtos.** La app
+  sirve a los tres, así que el contenido **abarca a los tres** (no solo gyms).
+  Con su esposa hay un **reparto geográfico** (ella empuja estudios en CDMX y
+  Torreón; Jorge en Monterrey y Baja California N/S), pero **Jorge sí quiere
+  clientes de estudios también**, no solo gyms.
 - **Mercado por estados, de a poco, sin saturarse.** Jorge: **Monterrey + Baja
   California Norte y Sur** por ahora. (Su esposa: CDMX y Torreón.) **Marca
   nacional, ventas estado por estado.**
-- El producto igual sirve a estudios; solo que el **enfoque de contenido y
-  prospección de Jorge apunta a dueños de gym/mixto.**
+- El contenido le habla por igual a **estudios, gyms y mixtos**; cuando toque,
+  se dice "tu estudio o tu gym".
 
 ## Qué les duele hoy (en sus palabras)
 - Pasar **horas contestando WhatsApp** sin nada automatizado.
@@ -69,6 +71,10 @@
   inspiracionales genéricas. Un momento concreto (una abuela en su primera
   clase, el abrazo del coach) conmueve; "transforma vidas" no.
 - Alegría sí, cursilería no. Sin violines de más: que la escena hable.
+- **La emoción abre, pero el reel cierra con algo claro.** A Jorge también le
+  gusta la fórmula de dar un valor concreto y un CTA (estilo creador de sistema):
+  está bien **mencionar Move yA** y pedir un **comentario con keyword** al final,
+  siempre que llegue después de hacer sentir. Susurro, no grito.
 
 ## Cómo define Move yA (sus palabras)
 > "Un software de gestión de reservas y cobros por medio de una aplicación,
