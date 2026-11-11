@@ -10,7 +10,7 @@ Nunca dos posts el mismo día. El gancho de la story SIEMPRE primero.
 
 ## 📦 Lo que te queda LISTO para subir
 - **Carrusel 4** "Números" (diseñado)
-- **Carrusel "Piedra-papel-tijera"** (diseñado, nuevo)
+- **Carrusel "Piedra-papel-tijera"** (v2 corregido — foto completa, sin franja blanca, sin $1)
 - **Reel 1** "La plaga del baile" (en edición)
 
 ## 🎞️ Assets disponibles
@@ -36,7 +36,7 @@ IA: celular de noche · manos · estudio · 1518. Logo + app icon.
 - **CAPTION:**
   > ¿Cuánto entró tu gym este mes? ¿Cuántos no renovaron? Si no lo sabes, no es un negocio: es una corazonada.
   > Move yA te pone tus números enfrente: entradas, salidas y saldo, al instante.
-  > Comenta MOVE y decide con datos. Prueba 14 días por $1.
+  > Comenta MOVE y decide con datos. 👇
   > #dueñosdegym #pilates #negociofitness #gestiondegimnasios #fitnessmexico
 - **STORIES:**
   1. [captura Reportes DIFUMINADA] "¿Sabes exactamente cuánto ganó tu negocio este mes? 👇"
@@ -58,7 +58,7 @@ IA: celular de noche · manos · estudio · 1518. Logo + app icon.
 - **CAPTION:**
   > En 1518 una ciudad entera no dejó de bailar. Hoy hay otra plaga que nadie explica: dueños que no paran de contestar WhatsApp.
   > A esa, por fin, le encontramos la cura. 🌿
-  > Comenta MOVE. Prueba 14 días por $1.
+  > Comenta MOVE y te cuento cómo. 👇
   > #pilates #dueñosdegym #emprendedorfitness #historia #fitnessmexico
 - **STORIES:**
   1. [frame del reel / imagen 1518] "Hoy subí algo DIFERENTE 👇"
@@ -74,12 +74,12 @@ IA: celular de noche · manos · estudio · 1518. Logo + app icon.
   3. 🟦 *Caja de preguntas*: "¿Qué es lo que más amas de tu negocio?"
 - **ENGAGEMENT:** 10 comentarios.
 
-### +2 DÍAS — POST: Carrusel "Piedra-papel-tijera"
+### +2 DÍAS — POST: Carrusel "Piedra-papel-tijera" (v2 corregido)
 - **CAPTION:**
-  > Dueño vs. su negocio: un juego que juegas todos los días... y casi siempre pierdes. ¿Por qué? Porque juegas solo.
-  > Move yA juega de tu lado: contesta, cobra y agenda por ti.
-  > Comenta MOVE. Prueba 14 días por $1.
-  > #dueñosdegym #pilates #emprendedorfitness #gestiondegimnasios #fitnessmexico
+  > Piedra, papel o tijera con tu propio negocio... y casi siempre pierdes tú. 🪨✊
+  > En este juego Move yA siempre juega de tu lado: contesta, cobra y te muestra tus números, solo.
+  > Escríbenos MOVE 👇 y te decimos cómo.
+  > #dueñosdegym #pilates #emprendedorfitness #gestiondeestudios #fitnessmexico
 - **STORIES:**
   1. [foto piedra-papel-tijera] "Piedra, papel o tijera: ¿tú o tu negocio? 👇"
   2. 🔁 Comparte el Carrusel → "Nuevo post."
@@ -90,6 +90,13 @@ IA: celular de noche · manos · estudio · 1518. Logo + app icon.
 
 ## 🎯 Regla de oro
 Los **seguidores nuevos** NO vienen de las stories: vienen del **REEL** + la **ronda de engagement diaria** (comentar en cuentas de dueños). Las stories y carruseles nutren; el reel y los comentarios atraen. **No falles el engagement ningún día.**
+
+## 📌 Tendencias de noviembre 2026 (súbete a lo que funciona)
+- **"Esto vs. aquello" / humor relatable** está pegando → tu carrusel de piedra-papel-tijera ya va justo en esa ola.
+- **Crudo > producido:** lo grabado "casero" le gana a lo muy editado. No necesitas súper producción.
+- **Texto en pantalla + captions buscables:** Instagram ya funciona como buscador. Siempre texto en el video.
+- **Carruseles** suben en *guardados y compartidos*; los **Reels** siguen siendo el #1 para alcance frío.
+- **Audio:** en México verifica en la app los que tengan la flecha ↗ "En tendencia" (ya arrancó la temporada navideña).
 
 ## 💡 Siguiente (Semana 2)
 - Post de **Fundador** con la foto familiar (emotivo).
